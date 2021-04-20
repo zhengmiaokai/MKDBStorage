@@ -4,20 +4,14 @@ PODS:
   - FMDB/standard (2.7.5)
   - MKBasic/Model (1.0.0):
     - MKUtils/Extern
-  - MKUtils (1.0.0):
-    - MKUtils/Extern (= 1.0.0)
-    - MKUtils/Marco (= 1.0.0)
-    - MKUtils/Utils (= 1.0.0)
   - MKUtils/Extern (1.0.0):
     - MKUtils/Marco
   - MKUtils/Marco (1.0.0)
-  - MKUtils/Utils (1.0.0):
-    - MKUtils/Marco
 
 DEPENDENCIES:
   - FMDB (~> 2.7.5)
   - MKBasic/Model (~> 1.0.0)
-  - MKUtils (~> 1.0.0)
+  - MKUtils/Extern (~> 1.0.0)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -31,6 +25,6 @@ SPEC CHECKSUMS:
   MKBasic: eb05b8bc6b4e6e874cc55cdfee10e0119d7352eb
   MKUtils: c96dd0729c0bc1e188d8b63795ac09d90d9ce882
 
-PODFILE CHECKSUM: f2e1fb25de11dfdc1c1e15c18ef0fb2c6bd9c340
+PODFILE CHECKSUM: 47e0c8e41bcec06c35e1cd851c1aa060932f2ec8
 
 COCOAPODS: 1.9.3
