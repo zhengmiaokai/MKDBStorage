@@ -1,0 +1,457 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A40E203644E8C6844811624B /* libPods-MKDBStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 583071A4F433E428065256B0 /* libPods-MKDBStorage.a */; };
+		D5955B55262E7CC6008BD47A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B54262E7CC6008BD47A /* AppDelegate.m */; };
+		D5955B58262E7CC6008BD47A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B57262E7CC6008BD47A /* SceneDelegate.m */; };
+		D5955B5B262E7CC6008BD47A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B5A262E7CC6008BD47A /* ViewController.m */; };
+		D5955B5E262E7CC6008BD47A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5955B5C262E7CC6008BD47A /* Main.storyboard */; };
+		D5955B60262E7CC8008BD47A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5955B5F262E7CC8008BD47A /* Assets.xcassets */; };
+		D5955B63262E7CC8008BD47A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5955B61262E7CC8008BD47A /* LaunchScreen.storyboard */; };
+		D5955B66262E7CC8008BD47A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B65262E7CC8008BD47A /* main.m */; };
+		D5955B7D262E80A3008BD47A /* MKDBQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B75262E80A2008BD47A /* MKDBQueue.m */; };
+		D5955B7E262E80A3008BD47A /* MKDBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B76262E80A2008BD47A /* MKDBModel.m */; };
+		D5955B7F262E80A3008BD47A /* MKDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B77262E80A2008BD47A /* MKDBStorage.m */; };
+		D5955B80262E80A3008BD47A /* MKKVOStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B78262E80A2008BD47A /* MKKVOStorage.m */; };
+		D5955B81262E80A3008BD47A /* MKDBhandle.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B79262E80A2008BD47A /* MKDBhandle.m */; };
+		D5955B8E262E84D9008BD47A /* MKTestDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B8C262E84D9008BD47A /* MKTestDBStorage.m */; };
+		D5955B92262E8510008BD47A /* MKTestDBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B90262E8510008BD47A /* MKTestDBModel.m */; };
+		D5955BDB262EB90A008BD47A /* MKArchivesDoubleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955BD9262EB90A008BD47A /* MKArchivesDoubleModel.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		583071A4F433E428065256B0 /* libPods-MKDBStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MKDBStorage.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BADFDD751962938D2956EFE /* Pods-MKDBStorage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKDBStorage.release.xcconfig"; path = "Target Support Files/Pods-MKDBStorage/Pods-MKDBStorage.release.xcconfig"; sourceTree = "<group>"; };
+		987DBD1926C0B02CD9CAB53E /* Pods-MKDBStorage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKDBStorage.debug.xcconfig"; path = "Target Support Files/Pods-MKDBStorage/Pods-MKDBStorage.debug.xcconfig"; sourceTree = "<group>"; };
+		D5955B50262E7CC6008BD47A /* MKDBStorage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MKDBStorage.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5955B53262E7CC6008BD47A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D5955B54262E7CC6008BD47A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D5955B56262E7CC6008BD47A /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		D5955B57262E7CC6008BD47A /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		D5955B59262E7CC6008BD47A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		D5955B5A262E7CC6008BD47A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D5955B5D262E7CC6008BD47A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D5955B5F262E7CC8008BD47A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D5955B62262E7CC8008BD47A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D5955B64262E7CC8008BD47A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D5955B65262E7CC8008BD47A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D5955B73262E80A2008BD47A /* MKDBhandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDBhandle.h; sourceTree = "<group>"; };
+		D5955B74262E80A2008BD47A /* MKKVOStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKKVOStorage.h; sourceTree = "<group>"; };
+		D5955B75262E80A2008BD47A /* MKDBQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBQueue.m; sourceTree = "<group>"; };
+		D5955B76262E80A2008BD47A /* MKDBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBModel.m; sourceTree = "<group>"; };
+		D5955B77262E80A2008BD47A /* MKDBStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBStorage.m; sourceTree = "<group>"; };
+		D5955B78262E80A2008BD47A /* MKKVOStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKKVOStorage.m; sourceTree = "<group>"; };
+		D5955B79262E80A2008BD47A /* MKDBhandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBhandle.m; sourceTree = "<group>"; };
+		D5955B7A262E80A2008BD47A /* MKDBQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDBQueue.h; sourceTree = "<group>"; };
+		D5955B7B262E80A2008BD47A /* MKDBStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDBStorage.h; sourceTree = "<group>"; };
+		D5955B7C262E80A2008BD47A /* MKDBModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDBModel.h; sourceTree = "<group>"; };
+		D5955B8C262E84D9008BD47A /* MKTestDBStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKTestDBStorage.m; sourceTree = "<group>"; };
+		D5955B8D262E84D9008BD47A /* MKTestDBStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKTestDBStorage.h; sourceTree = "<group>"; };
+		D5955B90262E8510008BD47A /* MKTestDBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKTestDBModel.m; sourceTree = "<group>"; };
+		D5955B91262E8510008BD47A /* MKTestDBModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKTestDBModel.h; sourceTree = "<group>"; };
+		D5955BD9262EB90A008BD47A /* MKArchivesDoubleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKArchivesDoubleModel.m; sourceTree = "<group>"; };
+		D5955BDA262EB90A008BD47A /* MKArchivesDoubleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKArchivesDoubleModel.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D5955B4D262E7CC6008BD47A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A40E203644E8C6844811624B /* libPods-MKDBStorage.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		41CD34807EAD7E69046DCB7E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				583071A4F433E428065256B0 /* libPods-MKDBStorage.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D5955B47262E7CC6008BD47A = {
+			isa = PBXGroup;
+			children = (
+				D5955B52262E7CC6008BD47A /* MKDBStorage */,
+				D5955B51262E7CC6008BD47A /* Products */,
+				E24FCD234835A83CDC0B86FA /* Pods */,
+				41CD34807EAD7E69046DCB7E /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		D5955B51262E7CC6008BD47A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D5955B50262E7CC6008BD47A /* MKDBStorage.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D5955B52262E7CC6008BD47A /* MKDBStorage */ = {
+			isa = PBXGroup;
+			children = (
+				D5955B53262E7CC6008BD47A /* AppDelegate.h */,
+				D5955B54262E7CC6008BD47A /* AppDelegate.m */,
+				D5955B56262E7CC6008BD47A /* SceneDelegate.h */,
+				D5955B57262E7CC6008BD47A /* SceneDelegate.m */,
+				D5955B59262E7CC6008BD47A /* ViewController.h */,
+				D5955B5A262E7CC6008BD47A /* ViewController.m */,
+				D5955B91262E8510008BD47A /* MKTestDBModel.h */,
+				D5955B90262E8510008BD47A /* MKTestDBModel.m */,
+				D5955B8D262E84D9008BD47A /* MKTestDBStorage.h */,
+				D5955B8C262E84D9008BD47A /* MKTestDBStorage.m */,
+				D5955BDA262EB90A008BD47A /* MKArchivesDoubleModel.h */,
+				D5955BD9262EB90A008BD47A /* MKArchivesDoubleModel.m */,
+				D5955B72262E80A2008BD47A /* DataBase */,
+				D5955B5C262E7CC6008BD47A /* Main.storyboard */,
+				D5955B5F262E7CC8008BD47A /* Assets.xcassets */,
+				D5955B61262E7CC8008BD47A /* LaunchScreen.storyboard */,
+				D5955B64262E7CC8008BD47A /* Info.plist */,
+				D5955B65262E7CC8008BD47A /* main.m */,
+			);
+			path = MKDBStorage;
+			sourceTree = "<group>";
+		};
+		D5955B72262E80A2008BD47A /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				D5955B73262E80A2008BD47A /* MKDBhandle.h */,
+				D5955B79262E80A2008BD47A /* MKDBhandle.m */,
+				D5955B7C262E80A2008BD47A /* MKDBModel.h */,
+				D5955B76262E80A2008BD47A /* MKDBModel.m */,
+				D5955B7A262E80A2008BD47A /* MKDBQueue.h */,
+				D5955B75262E80A2008BD47A /* MKDBQueue.m */,
+				D5955B7B262E80A2008BD47A /* MKDBStorage.h */,
+				D5955B77262E80A2008BD47A /* MKDBStorage.m */,
+				D5955B74262E80A2008BD47A /* MKKVOStorage.h */,
+				D5955B78262E80A2008BD47A /* MKKVOStorage.m */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
+		E24FCD234835A83CDC0B86FA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				987DBD1926C0B02CD9CAB53E /* Pods-MKDBStorage.debug.xcconfig */,
+				7BADFDD751962938D2956EFE /* Pods-MKDBStorage.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D5955B4F262E7CC6008BD47A /* MKDBStorage */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D5955B69262E7CC8008BD47A /* Build configuration list for PBXNativeTarget "MKDBStorage" */;
+			buildPhases = (
+				6F089ED86261F850E44840C1 /* [CP] Check Pods Manifest.lock */,
+				D5955B4C262E7CC6008BD47A /* Sources */,
+				D5955B4D262E7CC6008BD47A /* Frameworks */,
+				D5955B4E262E7CC6008BD47A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MKDBStorage;
+			productName = MKDBStorage;
+			productReference = D5955B50262E7CC6008BD47A /* MKDBStorage.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D5955B48262E7CC6008BD47A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					D5955B4F262E7CC6008BD47A = {
+						CreatedOnToolsVersion = 12.4;
+					};
+				};
+			};
+			buildConfigurationList = D5955B4B262E7CC6008BD47A /* Build configuration list for PBXProject "MKDBStorage" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D5955B47262E7CC6008BD47A;
+			productRefGroup = D5955B51262E7CC6008BD47A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D5955B4F262E7CC6008BD47A /* MKDBStorage */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D5955B4E262E7CC6008BD47A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5955B63262E7CC8008BD47A /* LaunchScreen.storyboard in Resources */,
+				D5955B60262E7CC8008BD47A /* Assets.xcassets in Resources */,
+				D5955B5E262E7CC6008BD47A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6F089ED86261F850E44840C1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MKDBStorage-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D5955B4C262E7CC6008BD47A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5955BDB262EB90A008BD47A /* MKArchivesDoubleModel.m in Sources */,
+				D5955B7D262E80A3008BD47A /* MKDBQueue.m in Sources */,
+				D5955B5B262E7CC6008BD47A /* ViewController.m in Sources */,
+				D5955B8E262E84D9008BD47A /* MKTestDBStorage.m in Sources */,
+				D5955B55262E7CC6008BD47A /* AppDelegate.m in Sources */,
+				D5955B7E262E80A3008BD47A /* MKDBModel.m in Sources */,
+				D5955B81262E80A3008BD47A /* MKDBhandle.m in Sources */,
+				D5955B7F262E80A3008BD47A /* MKDBStorage.m in Sources */,
+				D5955B66262E7CC8008BD47A /* main.m in Sources */,
+				D5955B92262E8510008BD47A /* MKTestDBModel.m in Sources */,
+				D5955B80262E80A3008BD47A /* MKKVOStorage.m in Sources */,
+				D5955B58262E7CC6008BD47A /* SceneDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D5955B5C262E7CC6008BD47A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D5955B5D262E7CC6008BD47A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D5955B61262E7CC8008BD47A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D5955B62262E7CC8008BD47A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D5955B67262E7CC8008BD47A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D5955B68262E7CC8008BD47A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D5955B6A262E7CC8008BD47A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 987DBD1926C0B02CD9CAB53E /* Pods-MKDBStorage.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MKDBStorage/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = mikazheng.MKDBStorage;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D5955B6B262E7CC8008BD47A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BADFDD751962938D2956EFE /* Pods-MKDBStorage.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MKDBStorage/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = mikazheng.MKDBStorage;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D5955B4B262E7CC6008BD47A /* Build configuration list for PBXProject "MKDBStorage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D5955B67262E7CC8008BD47A /* Debug */,
+				D5955B68262E7CC8008BD47A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D5955B69262E7CC8008BD47A /* Build configuration list for PBXNativeTarget "MKDBStorage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D5955B6A262E7CC8008BD47A /* Debug */,
+				D5955B6B262E7CC8008BD47A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D5955B48262E7CC6008BD47A /* Project object */;
+}
