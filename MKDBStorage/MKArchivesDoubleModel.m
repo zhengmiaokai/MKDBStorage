@@ -8,6 +8,10 @@
 
 #import "MKArchivesDoubleModel.h"
 
+@implementation MKPropertyA
+
+@end
+
 @implementation MKArchivesSubModel
 
 @end

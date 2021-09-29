@@ -44,6 +44,12 @@
     data.dajiahaoA = @"sdfsdf";
     data.wohao = @"sdf";
     data.tahao = @"sdfsdf";
+    
+    MKPropertyA* propertyA = [MKPropertyA new];
+    propertyA.a = @"s";
+    propertyA.b = @"d";
+    data.propertyA = propertyA;
+    
     [data save_and_find];
 }
 

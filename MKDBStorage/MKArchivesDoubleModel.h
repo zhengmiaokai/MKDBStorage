@@ -8,6 +8,13 @@
 
 #import <MKBasic/MKArchivesModel.h>
 
+@interface MKPropertyA : NSObject
+
+@property (strong, nonatomic) NSString* a;
+@property (strong, nonatomic) NSString* b;
+
+@end
+
 @interface MKArchivesSubModel : MKArchivesModel
 
 @property (strong, nonatomic) NSString* nihao;
@@ -26,6 +33,7 @@
 
 @property (strong, nonatomic) NSString* wohao;
 @property (strong, nonatomic) NSString* tahao;
+@property (strong, nonatomic) MKPropertyA* propertyA;
 
 - (void)save_and_find;
 
