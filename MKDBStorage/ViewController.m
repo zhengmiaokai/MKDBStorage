@@ -51,6 +51,9 @@
     data.propertyA = propertyA;
     
     [data save_and_find];
+    
+    MKArchivesDoubleModel * dataCopy = [data copy];
+    NSLog(@"data-copy: %@", dataCopy);
 }
 
 

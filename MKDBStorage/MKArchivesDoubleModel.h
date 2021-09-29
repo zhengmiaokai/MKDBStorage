@@ -8,7 +8,7 @@
 
 #import <MKBasic/MKArchivesModel.h>
 
-@interface MKPropertyA : NSObject
+@interface MKPropertyA : MKArchivesModel
 
 @property (strong, nonatomic) NSString* a;
 @property (strong, nonatomic) NSString* b;
