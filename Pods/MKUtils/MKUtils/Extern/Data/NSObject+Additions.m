@@ -57,100 +57,58 @@
     });
 }
 
-- (NSArray*)generatePropertyKeys
-{
-    unsigned int self_count = 0;
-    
-    objc_property_t* self_properties  = nil;
-    
-    if (([NSBundle bundleForClass:[self class]] == [NSBundle mainBundle])) {
-        self_properties  = class_copyPropertyList([self class], &self_count);
-    }
-    
-    unsigned int super_count = 0;
-    
-    objc_property_t* super_properties  = nil;
-    
-    if (([NSBundle bundleForClass:[self superclass]] == [NSBundle mainBundle]) && self_properties) {
-        super_properties  = class_copyPropertyList([self superclass], &super_count);
-    }
-    
+- (NSArray*)generatePropertyKeys {
     NSMutableArray* mPropertyArray = [NSMutableArray array];
-    @autoreleasepool {
-        for (int i = 0; i < self_count + super_count; i++) {
-            
-            objc_property_t property = nil;
-            if (i>=self_count) {
-                property = super_properties[i-self_count];
+    
+    id currentClass = [self class];
+    while (![NSStringFromClass(currentClass) isEqualToString:@"NSObject"]) {
+        /// && ([NSBundle bundleForClass:currentClass] == [NSBundle mainBundle])
+        unsigned int propertieCount = 0;
+        objc_property_t* properties  = class_copyPropertyList(currentClass, &propertieCount);
+        
+        @autoreleasepool {
+            for (int i = 0; i < propertieCount; i++) {
+                objc_property_t property = properties[i];
+                const char* name = property_getName(property);
+                
+                NSString *propertyName = [[NSString alloc] initWithCString:name encoding:NSUTF8StringEncoding];
+                [mPropertyArray addObject:propertyName];
             }
-            else {
-                property = self_properties[i];
-            }
-            
-            const char* name = property_getName(property);
-            
-            NSString *propertyName = [[NSString alloc] initWithCString:name encoding:NSUTF8StringEncoding];
-            
-            [mPropertyArray addObject:propertyName];
         }
+        
+        if (properties) {
+            free(properties);
+        }
+        currentClass = [currentClass superclass];
     }
-    
-    if (self_properties) {
-        free(self_properties);
-    }
-    if (super_properties) {
-        free(super_properties);
-    }
-    
     return mPropertyArray ;
 }
 
-- (NSArray*)generatePropertyTypes
-{
-    unsigned int self_count = 0;
-    
-    objc_property_t* self_properties  = nil;
-    
-    if (([NSBundle bundleForClass:[self class]] == [NSBundle mainBundle])) {
-        self_properties  = class_copyPropertyList([self class], &self_count);
-    }
-    
-    unsigned int super_count = 0;
-    
-    objc_property_t* super_properties  = nil;
-    
-    if (([NSBundle bundleForClass:[self superclass]] == [NSBundle mainBundle]) && self_properties) {
-        super_properties  = class_copyPropertyList([self superclass], &super_count);
-    }
-    
+- (NSArray*)generatePropertyTypes {
     NSMutableArray* mPropertyTypesArray = [NSMutableArray array];
-    @autoreleasepool {
-        for (int i = 0; i < self_count + super_count; i++) {
-            
-            objc_property_t property = nil;
-            if (i>=self_count) {
-                property = super_properties[i-self_count];
+    
+    id currentClass = [self class];
+    while (![NSStringFromClass(currentClass) isEqualToString:@"NSObject"]) {
+        /// && ([NSBundle bundleForClass:currentClass] == [NSBundle mainBundle])
+        unsigned int propertieCount = 0;
+        objc_property_t* properties  = class_copyPropertyList(currentClass, &propertieCount);
+        
+        @autoreleasepool {
+            for (int i = 0; i < propertieCount; i++) {
+                objc_property_t property = properties[i];
+                const char* typeName = getPropertyType(property);
+                
+                NSString *propertyTypeName = [[NSString alloc] initWithCString:typeName encoding:NSUTF8StringEncoding];
+                [mPropertyTypesArray addObject:propertyTypeName];
             }
-            else {
-                property = self_properties[i];
-            }
-            
-            const char* typeName = getPropertyType(property);
-            
-            NSString *propertyTypeName = [[NSString alloc] initWithCString:typeName encoding:NSUTF8StringEncoding];
-            
-            [mPropertyTypesArray addObject:propertyTypeName];
         }
+        
+        if (properties) {
+            free(properties);
+        }
+        currentClass = [currentClass superclass];
     }
-    
-    if (self_properties) {
-        free(self_properties);
-    }
-    if (super_properties) {
-        free(super_properties);
-    }
-    
-    return mPropertyTypesArray ;
+    return mPropertyTypesArray;
 }
 
 static const char *getPropertyType(objc_property_t property) {
@@ -180,84 +138,58 @@ static const char *getPropertyType(objc_property_t property) {
 }
 
 - (NSDictionary *)objectRecordPropertyDictionary {
-    
-    unsigned int self_count = 0;
-    
-    objc_property_t* self_properties  = nil;
-    
-    if (([NSBundle bundleForClass:[self class]] == [NSBundle mainBundle])) {
-        self_properties  = class_copyPropertyList([self class], &self_count);
-    }
-    
-    unsigned int super_count = 0;
-    
-    objc_property_t* super_properties  = nil;
-    
-    if (([NSBundle bundleForClass:[self superclass]] == [NSBundle mainBundle]) && self_properties) {
-        super_properties  = class_copyPropertyList([self superclass], &super_count);
-    }
-    
     NSMutableDictionary* parameters = [NSMutableDictionary dictionary];
     
-    for (int i = 0; i < self_count + super_count; i++) {
+    id currentClass = [self class];
+    while (![NSStringFromClass(currentClass) isEqualToString:@"NSObject"]) {
+        /// && ([NSBundle bundleForClass:currentClass] == [NSBundle mainBundle])
+        unsigned int propertieCount = 0;
+        objc_property_t* properties  = class_copyPropertyList(currentClass, &propertieCount);
         
-        objc_property_t property = nil;
-        if (i>=self_count) {
-            property = super_properties[i-self_count];
-        }
-        else {
-            property = self_properties[i];
-        }
-        
-        const char* name = property_getName(property);
-        
-        NSString* propertyName = [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
-        
-        NSObject* value = [self valueForKey:propertyName];
-        
-        Class objectClass = object_getClass(value);
-        
-        if  (objectClass != nil) {
-            NSString* className = NSStringFromClass(objectClass);
-            
-            if ([className rangeOfString:@"NS"].length != 0) {
-                if ([className rangeOfString:@"String"].length != 0) {
-                    parameters[propertyName] = value;
-                }
-                else if ([className rangeOfString:@"Number"].length != 0) {
-                    parameters[propertyName] = value;
-                }
-                else if ([className rangeOfString:@"Data"].length != 0) {
-                    parameters[propertyName] = value;
-                }
-                else if ([className rangeOfString:@"Array"].length != 0) {
-                    NSArray* arr = [(NSArray *)value arrayRecordPropertyArray];
-                    parameters[propertyName] = arr;
-                }
-                else if ([className rangeOfString:@"Dictionary"].length != 0)  {
-                    NSDictionary* dic = [(NSDictionary *)value dictionaryRecordPropertyDictionary];
-                    parameters[propertyName] = dic;
-                }
-                else {
-                    continue;
+        @autoreleasepool {
+            for (int i = 0; i < propertieCount; i++) {
+                objc_property_t property = properties[i];
+                
+                const char* name = property_getName(property);
+                NSString* propertyName = [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
+                
+                NSObject* value = [self valueForKey:propertyName];
+                Class objectClass = object_getClass(value);
+                
+                if  (objectClass != nil) {
+                    NSString* className = NSStringFromClass(objectClass);
+                    
+                    if ([className rangeOfString:@"NS"].length != 0) {
+                        if ([className rangeOfString:@"String"].length != 0) {
+                            parameters[propertyName] = value;
+                        } else if ([className rangeOfString:@"Number"].length != 0) {
+                            parameters[propertyName] = value;
+                        } else if ([className rangeOfString:@"Data"].length != 0) {
+                            parameters[propertyName] = value;
+                        } else if ([className rangeOfString:@"Array"].length != 0) {
+                            NSArray* arr = [(NSArray *)value arrayRecordPropertyArray];
+                            parameters[propertyName] = arr;
+                        } else if ([className rangeOfString:@"Dictionary"].length != 0)  {
+                            NSDictionary* dic = [(NSDictionary *)value dictionaryRecordPropertyDictionary];
+                            parameters[propertyName] = dic;
+                        } else {
+                            continue;
+                        }
+                    } else if ([className rangeOfString:@"Block"].length != 0) {
+                        continue;
+                    } else {
+                        NSDictionary* dic = [(NSObject *)value objectRecordPropertyDictionary];
+                        parameters[propertyName] = dic;
+                    }
                 }
             }
-            else if ([className rangeOfString:@"Block"].length != 0) {
-                continue;
-            }
-            else {
-                NSDictionary* dic = [(NSObject *)value objectRecordPropertyDictionary];
-                parameters[propertyName] = dic;
-            }
         }
+        
+        if (properties) {
+            free(properties);
+        }
+        currentClass = [currentClass superclass];
     }
-    if (self_properties) {
-        free(self_properties);
-    }
-    if (super_properties) {
-        free(super_properties);
-    }
-    
     return parameters;
 }
 

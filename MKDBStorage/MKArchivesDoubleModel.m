@@ -12,6 +12,10 @@
 
 @end
 
+@implementation MKArchivesSubModelA
+
+@end
+
 @implementation MKArchivesDoubleModel
 
 - (void)save_and_find {

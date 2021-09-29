@@ -40,6 +40,8 @@
     MKArchivesDoubleModel * data = [MKArchivesDoubleModel new];
     data.nihao = @"sdf";
     data.dajiahao = @"sdfsdf";
+    data.nihaoA = @"sdf";
+    data.dajiahaoA = @"sdfsdf";
     data.wohao = @"sdf";
     data.tahao = @"sdfsdf";
     [data save_and_find];

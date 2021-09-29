@@ -10,12 +10,10 @@
 
 /**
  *======================================================================================*
- *coding与copy协议的基类(目前valueForKey:只能提取了class与superClass的属性，所以属性继承不要超过该范围)
+ *coding与copy协议的基类(属性获取截止到NSObject)
  *======================================================================================*
  **/
 
 @interface MKArchivesModel : MKBasicModel
-
-@property (nonatomic, copy) NSString* abc;
 
 @end

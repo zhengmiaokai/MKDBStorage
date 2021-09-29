@@ -15,7 +15,14 @@
 
 @end
 
-@interface MKArchivesDoubleModel : MKArchivesSubModel
+@interface MKArchivesSubModelA: MKArchivesSubModel
+
+@property (strong, nonatomic) NSString* nihaoA;
+@property (strong, nonatomic) NSString* dajiahaoA;
+
+@end
+
+@interface MKArchivesDoubleModel : MKArchivesSubModelA
 
 @property (strong, nonatomic) NSString* wohao;
 @property (strong, nonatomic) NSString* tahao;
