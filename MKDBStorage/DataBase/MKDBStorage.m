@@ -81,7 +81,7 @@
         success = NO;
         for (int i=0; i<list.count; i++){
             MKDBModel* data = [list safeObjectAtIndex:i];
-            success = [db saveWithTableName:self.tableName dataBaseModel:data];
+            success = [db saveWithTableName:table dataBaseModel:data];
             if (success == NO) {
                 break;
             }
@@ -100,7 +100,7 @@
         success = NO;
         for (int i=0; i<list.count; i++){
             MKDBModel* data = [list safeObjectAtIndex:i];
-            success = [db saveWithTableName:self.tableName dataBaseModel:data];
+            success = [db saveWithTableName:table dataBaseModel:data];
             if (success == NO) {
                 break;
             }
@@ -119,7 +119,7 @@
 - (BOOL)saveDataWithData:(MKDBModel *)data table:(NSString *)table {
     __block BOOL success;
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        success = [db saveWithTableName:self.tableName dataBaseModel:data];
+        success = [db saveWithTableName:table dataBaseModel:data];
         if (success == NO) {
             *rollback = YES;
         }
@@ -130,7 +130,7 @@
 - (void)saveDataWithData:(MKDBModel *)data table:(NSString *)table isAsync:(BOOL)isAsync callBack:(void(^)(BOOL))callBack {
     __block BOOL success;
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        success = [db saveWithTableName:self.tableName dataBaseModel:data];
+        success = [db saveWithTableName:table dataBaseModel:data];
         if (success == NO) {
             *rollback = YES;
         }
