@@ -41,7 +41,7 @@ static NSString * const kMKKVODbName = @"mk_kvo.db";
 
 @implementation MKKVOStorage
 
-+ (MKKVOStorage *)sharedInstance {
++ (instancetype)sharedInstance {
     static MKKVOStorage *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^ {
@@ -68,18 +68,18 @@ static NSString * const kMKKVODbName = @"mk_kvo.db";
 }
 
 - (void)creatTableWithName:(NSString *)tableName {
-    if (tableName) {
-        self.tableName = tableName;
-    }
-    
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        if ([db tableExists:self.tableName] == NO) {
-            [db creatWithTableName:self.tableName dataBaseModel:[MKKVODBModel class]];
+        if ([db tableExists:tableName] == NO) {
+            [db creatWithTableName:tableName dataBaseModel:[MKKVODBModel class]];
         }
     } isAsync:YES completion:nil];
 }
 
 - (void)getValueForKey:(NSString *)key completion:(MKDBCompletionHandler)completionHandler {
+    [self getValueForKey:key tableName:nil completion:completionHandler];
+}
+
+- (void)getValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(MKDBCompletionHandler)completionHandler {
     MKStoregeItem* storegeItem = nil;
     @synchronized (self) {
         storegeItem = [self.storegeItems objectForKey:key];
@@ -96,7 +96,7 @@ static NSString * const kMKKVODbName = @"mk_kvo.db";
         __block BOOL isSuccess;
         [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
             @strongify(self);
-            NSString* query = [NSString stringWithFormat:@"select * from %@ where key = '%@'", self.tableName, key];
+            NSString* query = [NSString stringWithFormat:@"select * from %@ where key = '%@'", (tableName ? tableName : self.tableName), key];
             isSuccess = [db selectWithQuery:query resultBlock:^(FMResultSet * _Nonnull result) {
                 if (completionHandler) {
                     NSString* valueJson = [result stringForColumn:@"value"];
@@ -117,7 +117,11 @@ static NSString * const kMKKVODbName = @"mk_kvo.db";
     }
 }
 
-- (void)saveDataWithValue:(id)value forKey:(NSString *)key {
+- (void)saveDataWithValue:(id)value forKey:(NSString *)key{
+    [self saveDataWithValue:value forKey:key tableName:nil];
+}
+
+- (void)saveDataWithValue:(id)value forKey:(NSString *)key tableName:(NSString *)tableName {
     MKKVODBModel* model = [[MKKVODBModel alloc] initWithValue:value forKey:key];
     
     MKStoregeItem* storegeItem = [self.storegeItems objectForKey:key];
@@ -126,7 +130,7 @@ static NSString * const kMKKVODbName = @"mk_kvo.db";
     }
     
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        NSString* query = [NSString stringWithFormat:@"select * from %@ where key = '%@'", self.tableName, key];
+        NSString* query = [NSString stringWithFormat:@"select * from %@ where key = '%@'", (tableName ? tableName : self.tableName), key];
         if ([db selectWithQuery:query resultBlock:^(FMResultSet * _Nonnull result) {}]) {
             [db updateWithTableName:self.tableName dataBaseModel:model where:@{@"key": key}];
         }
@@ -137,8 +141,12 @@ static NSString * const kMKKVODbName = @"mk_kvo.db";
 }
 
 - (void)removeForKey:(NSString *)key {
+    [self removeForKey:key tableName:nil];
+}
+
+- (void)removeForKey:(NSString *)key tableName:(NSString *)tableName {
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        NSString* query = [NSString stringWithFormat:@"delete from %@ where key = %@", self.tableName, key];
+        NSString* query = [NSString stringWithFormat:@"delete from %@ where key = %@", (tableName ? tableName : self.tableName), key];
         [db deleteWithQuery:query];
     } isAsync:YES completion:nil];
 }
