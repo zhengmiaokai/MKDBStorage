@@ -8,26 +8,27 @@
 
 #import "MKDBStorage.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 typedef void(^MKDBCompletionHandler)(id response);
 
 @protocol MKKVOStorageDelegate <NSObject>
 
 - (void)saveDataWithValue:(id)value forKey:(NSString *)key;
+- (void)saveDataWithValue:(id)value forKey:(NSString *)key tableName:(NSString *)tableName;
 
 - (void)getValueForKey:(NSString *)key completion:(MKDBCompletionHandler)completionHandler;
+- (void)getValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(MKDBCompletionHandler)completionHandler;
 
 - (void)removeForKey:(NSString *)key;
+- (void)removeForKey:(NSString *)key tableName:(NSString *)tableName;
 
 @end
 
 @interface MKKVOStorage : MKDBStorage <MKKVOStorageDelegate>
 
-+ (MKKVOStorage *)sharedInstance;
++ (instancetype)sharedInstance;
+
+- (instancetype)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
 
 - (void)creatTableWithName:(NSString *)tableName;
 
 @end
-
-NS_ASSUME_NONNULL_END
