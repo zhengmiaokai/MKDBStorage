@@ -19,6 +19,8 @@
 
 @property (strong, nonatomic) NSString* nihao;
 @property (strong, nonatomic) NSString* dajiahao;
+@property (assign, nonatomic) int intNumber;
+@property (assign, nonatomic) float floatNumber;
 
 @end
 
