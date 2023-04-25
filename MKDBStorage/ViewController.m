@@ -37,6 +37,7 @@
     [otherDataBase saveData];
     [otherDataBase selectData];
     
+    /* 基类实现了 NSCoding/NSCoping 协议 */
     MKArchivesDoubleModel * data = [MKArchivesDoubleModel new];
     data.nihao = @"sdf";
     data.dajiahao = @"sdfsdf";
@@ -44,6 +45,8 @@
     data.dajiahaoA = @"sdfsdf";
     data.wohao = @"sdf";
     data.tahao = @"sdfsdf";
+    data.intNumber = 1;
+    data.floatNumber = 1.1;
     
     MKPropertyA* propertyA = [MKPropertyA new];
     propertyA.a = @"s";
