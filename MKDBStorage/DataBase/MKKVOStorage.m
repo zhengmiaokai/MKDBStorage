@@ -132,10 +132,10 @@ static NSString * const kMKKVODbName = @"mk_kvo.db";
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
         NSString* query = [NSString stringWithFormat:@"select * from %@ where key = '%@'", (tableName ? tableName : self.tableName), key];
         if ([db selectWithQuery:query resultBlock:^(FMResultSet * _Nonnull result) {}]) {
-            [db updateWithTableName:self.tableName dataBaseModel:model where:@{@"key": key}];
+            [db updateWithTableName:(tableName ? tableName : self.tableName) dataBaseModel:model where:@{@"key": key}];
         }
         else {
-            [db saveWithTableName:self.tableName dataBaseModel:model];
+            [db saveWithTableName:(tableName ? tableName : self.tableName) dataBaseModel:model];
         }
     } isAsync:YES completion:nil];
 }
