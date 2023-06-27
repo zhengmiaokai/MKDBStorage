@@ -10,7 +10,7 @@
 
 @implementation MKTestDBStorage
 
-- (void)initDatas {
+- (void)onLoad {
     self.tableName = @"test_db_table";
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
         if ([db tableExists:self.tableName] == NO) {

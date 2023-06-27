@@ -11,6 +11,10 @@
 #import <MKUtils/NSString+Sign.h>
 #import <MKUtils/NSDictionary+Additions.h>
 
+#define LOCK(...) dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER); \
+__VA_ARGS__; \
+dispatch_semaphore_signal(_lock);
+
 //Users/lexin/Library/Developer/CoreSimulator/Devices/4B984E3D-F67C-41FE-B198-E329FE726D55/data/Containers/Data/Application/77F23825-BE3F-42F1-AA68-7E5A1D9BF99D/Documents/DBStorage/base.db
 
 #define kDBFileName    @"base.db"
@@ -19,8 +23,8 @@
 
 @interface MKDBQueue ()
 
-@property (nonatomic, strong) NSMutableDictionary* queueItems;
-@property (nonatomic, strong) NSLock* lock;
+@property (nonatomic, strong) NSMutableDictionary *queueItems;
+@property (nonatomic, strong) dispatch_semaphore_t lock;
 
 @end
 
@@ -44,59 +48,40 @@
         _dbQueue = [[FMDatabaseQueue alloc] initWithPath:filePath];
         
         _gcdQueue = dispatch_queue_create("com.MKDBStorage.queue", NULL);
-        self.lock = [[NSLock alloc] init];
+        
+        self.queueItems = [NSMutableDictionary dictionaryWithCapacity:2];
+        self.lock = dispatch_semaphore_create(1);
     }
     return self;
 }
 
-- (NSMutableDictionary *)queueItems {
-    if (_queueItems == nil) {
-        _queueItems = [NSMutableDictionary dictionaryWithCapacity:6];
-    }
-    return _queueItems;
-}
-
-- (void)addDb:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
-    MKDBQueueItem* item = [[MKDBQueueItem alloc] initWithDb:dbName gcdQueue:gcdQueue];
-    
-    [_lock lock];
-    [self.queueItems setSafeObject:item forKey:[dbName MD5]];
-    [_lock unlock];
+- (void)addDbQueue:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
+    MKDBQueueItem* item = [[MKDBQueueItem alloc] initWithDbName:dbName gcdQueue:gcdQueue];
+    LOCK([self.queueItems setSafeObject:item forKey:[dbName MD5]]);
 }
 
 - (FMDatabaseQueue *)getDbQueueWithDbName:(NSString *)dbName {
-    [_lock lock];
-    MKDBQueueItem* item = [self.queueItems objectForKey:[dbName MD5]];
-    [_lock unlock];
-    
-    if (item && item.dbQueue) {
-        return item.dbQueue;
-    }
-    return nil;
+    LOCK(MKDBQueueItem* item = [self.queueItems objectForKey:[dbName MD5]]);
+    return item.dbQueue;
 }
 
 - (dispatch_queue_t)getGcdQueueWithDbName:(NSString *)dbName {
-    [_lock lock];
-    MKDBQueueItem* item = [self.queueItems objectForKey:[dbName MD5]];
-    [_lock unlock];
-    
+    LOCK(MKDBQueueItem* item = [self.queueItems objectForKey:[dbName MD5]]);
     if (item && item.gcdQueue) {
         return item.gcdQueue;
     }
     return _gcdQueue;
 }
 
-- (void)removeDb:(NSString *)dbName {
-    [_lock lock];
-    [self.queueItems removeSafeOjectForKey:[dbName MD5]];
-    [_lock unlock];
+- (void)removeDbQueue:(NSString *)dbName {
+    LOCK([self.queueItems removeSafeOjectForKey:[dbName MD5]]);
 }
 
 @end
 
 @implementation MKDBQueueItem
 
-- (id)initWithDb:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
+- (id)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
     self = [super init];
     if (self) {
         NSString* folderPath = [NSFileManager forderPathWithFolderName:kDBFolderName directoriesPath:DocumentPath()];

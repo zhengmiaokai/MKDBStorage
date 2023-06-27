@@ -11,7 +11,7 @@
 
 @implementation FMDatabase (Addition)
 
-- (BOOL)saveWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel {
+- (BOOL)insertWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel {
     @autoreleasepool {
         NSDictionary* dataDic = [dataBaseModel objectRecordPropertyDictionary];
         NSArray* values = [dataDic allValues];

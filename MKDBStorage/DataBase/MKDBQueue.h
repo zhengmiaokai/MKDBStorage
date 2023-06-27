@@ -14,26 +14,26 @@
 + (instancetype)shareInstance;
 
 /// 默认DBQueue
-@property (nonatomic, strong, readonly) FMDatabaseQueue* dbQueue;
+@property (nonatomic, strong, readonly) FMDatabaseQueue *dbQueue;
 
 /// 默认GCDQueue
 @property (nonatomic, strong, readonly) dispatch_queue_t gcdQueue;
 
-- (void)addDb:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
+- (void)addDbQueue:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
 
 - (FMDatabaseQueue *)getDbQueueWithDbName:(NSString *)dbName;
 
 - (dispatch_queue_t)getGcdQueueWithDbName:(NSString *)dbName;
 
-- (void)removeDb:(NSString *)dbName;
+- (void)removeDbQueue:(NSString *)dbName;
 
 @end
 
 @interface MKDBQueueItem : NSObject
 
-- (id)initWithDb:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
+- (id)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
 
-@property (nonatomic, strong) FMDatabaseQueue* dbQueue;
+@property (nonatomic, strong) FMDatabaseQueue *dbQueue;
 @property (nonatomic, strong) dispatch_queue_t gcdQueue;
 
 @end

@@ -16,11 +16,11 @@
 
 @interface FMDatabase (Addition)
 
-/** 保存数据
+/** 插入数据
  *   @param tableName 表名
  *   @param dataBaseModel 数据格式 基于DataBaseModel
  */
-- (BOOL)saveWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel;
+- (BOOL)insertWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel;
 
 /** 更新数据
 *   @param tableName 表名

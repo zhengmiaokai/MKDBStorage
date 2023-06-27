@@ -23,7 +23,7 @@
         _dbQueue = [MKDBQueue shareInstance].dbQueue;
         _gcdQueue = [MKDBQueue shareInstance].gcdQueue;
         
-        [self initDatas];
+        [self onLoad];
     }
     return self;
 }
@@ -31,16 +31,18 @@
 - (id)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
     self = [super init];
     if (self) {
-        [[MKDBQueue shareInstance] addDb:dbName gcdQueue:gcdQueue];
+        [[MKDBQueue shareInstance] addDbQueue:dbName gcdQueue:gcdQueue];
         _dbQueue = [[MKDBQueue shareInstance] getDbQueueWithDbName:dbName];
         _gcdQueue = [[MKDBQueue shareInstance] getGcdQueueWithDbName:dbName];
         
-        [self initDatas];
+        [self onLoad];
     }
     return self;
 }
 
-- (void)initDatas { }
+- (void)onLoad {
+    // 创建|更新表信息
+}
 
 - (NSString *)tableName {
     if (_tableName == nil) {
@@ -81,7 +83,7 @@
         success = NO;
         for (int i=0; i<list.count; i++){
             MKDBModel* data = [list safeObjectAtIndex:i];
-            success = [db saveWithTableName:table dataBaseModel:data];
+            success = [db insertWithTableName:table dataBaseModel:data];
             if (success == NO) {
                 break;
             }
@@ -100,7 +102,7 @@
         success = NO;
         for (int i=0; i<list.count; i++){
             MKDBModel* data = [list safeObjectAtIndex:i];
-            success = [db saveWithTableName:table dataBaseModel:data];
+            success = [db insertWithTableName:table dataBaseModel:data];
             if (success == NO) {
                 break;
             }
@@ -119,7 +121,7 @@
 - (BOOL)saveDataWithData:(MKDBModel *)data table:(NSString *)table {
     __block BOOL success;
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        success = [db saveWithTableName:table dataBaseModel:data];
+        success = [db insertWithTableName:table dataBaseModel:data];
         if (success == NO) {
             *rollback = YES;
         }
@@ -130,7 +132,7 @@
 - (void)saveDataWithData:(MKDBModel *)data table:(NSString *)table isAsync:(BOOL)isAsync callBack:(void(^)(BOOL))callBack {
     __block BOOL success;
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        success = [db saveWithTableName:table dataBaseModel:data];
+        success = [db insertWithTableName:table dataBaseModel:data];
         if (success == NO) {
             *rollback = YES;
         }
