@@ -25,7 +25,7 @@ static NSString * const kDBFolderName = @"baseDB";
 
 @property (nonatomic, strong) NSMutableDictionary* queues;
 
-@property (nonatomic, strong) NSRecursiveLock* lock;
+@property (nonatomic, strong) NSLock* lock;
 
 @end
 
@@ -56,7 +56,7 @@ static NSString * const kDBFolderName = @"baseDB";
         self.queue = [[FMDatabaseQueue alloc] initWithPath:
                   [NSFileManager pathWithFileName:kDBFileName foldPath:folderPath]];
         self.gcd_queue = dispatch_queue_create("SerialQueue", NULL);
-        self.lock = [[NSRecursiveLock alloc] init];
+        self.lock = [[NSLock alloc] init];
     }
     return self;
 }

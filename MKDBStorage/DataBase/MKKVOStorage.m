@@ -37,6 +37,8 @@ static NSString * const kMKKVODbName = @"mk_kvo.db";
 
 @property (nonatomic, strong) NSMutableDictionary* storegeItems;
 
+@property (nonatomic, strong) NSLock* lock;
+
 @end
 
 @implementation MKKVOStorage
@@ -55,6 +57,7 @@ static NSString * const kMKKVODbName = @"mk_kvo.db";
     self = [super initWithDbName:dbName gcdQueue:gcdQueue];
     if (self) {
         self.storegeItems = [[NSMutableDictionary alloc] init];
+        self.lock = [[NSLock alloc] init];
     }
     return self;
 }
@@ -80,18 +83,18 @@ static NSString * const kMKKVODbName = @"mk_kvo.db";
 }
 
 - (void)getValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(MKDBCompletionHandler)completionHandler {
-    MKStoregeItem* storegeItem = nil;
-    @synchronized (self) {
-        storegeItem = [self.storegeItems objectForKey:key];
-    }
+    [_lock lock];
+    MKStoregeItem *storegeItem = [_storegeItems objectForKey:key];
+    [_lock unlock];
     
     if (storegeItem.value) {
         completionHandler(storegeItem.value);
     } else {
         MKStoregeItem* storegeItem = [MKStoregeItem itemWithCompletion:completionHandler];
-        @synchronized (self) {
-            [self.storegeItems setObject:storegeItem forKey:key];
-        }
+        [_lock lock];
+        [_storegeItems setObject:storegeItem forKey:key];
+        [_lock unlock];
+        
         @weakify(self);
         __block BOOL isSuccess;
         [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
@@ -124,7 +127,7 @@ static NSString * const kMKKVODbName = @"mk_kvo.db";
 - (void)saveDataWithValue:(id)value forKey:(NSString *)key tableName:(NSString *)tableName {
     MKKVODBModel* model = [[MKKVODBModel alloc] initWithValue:value forKey:key];
     
-    MKStoregeItem* storegeItem = [self.storegeItems objectForKey:key];
+    MKStoregeItem* storegeItem = [_storegeItems objectForKey:key];
     if (storegeItem) {
         storegeItem.value = value;
     }
