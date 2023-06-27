@@ -9,7 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "MKDBhandle.h"
 
-@interface MKDBStorage : NSObject
+@protocol MKDBStorage <NSObject>
+
+@required
+- (void)onLoad;
+
+@end
+
+@interface MKDBStorage : NSObject <MKDBStorage>
 
 @property (nonatomic, strong, readonly) FMDatabaseQueue* dbQueue;
 
