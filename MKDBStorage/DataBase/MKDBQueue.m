@@ -11,33 +11,20 @@
 #import <MKUtils/NSString+Sign.h>
 #import <MKUtils/NSDictionary+Additions.h>
 
-//Users/zhengmiaokai/Library/Developer/CoreSimulator/Devices/37426058-90EB-41A6-85C0-5983E838E395/data/Containers/Data/Application/7E202DA9-6B54-420C-AF18-CFC82F7DA745/Library/Caches/baseDB/base.db
+//Users/lexin/Library/Developer/CoreSimulator/Devices/4B984E3D-F67C-41FE-B198-E329FE726D55/data/Containers/Data/Application/77F23825-BE3F-42F1-AA68-7E5A1D9BF99D/Documents/DBStorage/base.db
 
-static NSString * const kDBFileName = @"base.db";
-static NSString * const kDBFolderName = @"baseDB";
+#define kDBFileName    @"base.db"
+#define kDBFolderName  @"DBStorage"
 
 
 @interface MKDBQueue ()
 
-@property (nonatomic, strong) FMDatabaseQueue* queue;
-
-@property (nonatomic, strong) dispatch_queue_t gcd_queue;
-
-@property (nonatomic, strong) NSMutableDictionary* queues;
-
+@property (nonatomic, strong) NSMutableDictionary* queueItems;
 @property (nonatomic, strong) NSLock* lock;
 
 @end
 
 @implementation MKDBQueue
-
-- (FMDatabaseQueue *)getDbQueue {
-    return _queue;
-}
-
-- (dispatch_queue_t)get_gcd_queue {
-    return  _gcd_queue;
-}
 
 + (instancetype)shareInstance {
     static MKDBQueue *manager = nil;
@@ -52,33 +39,34 @@ static NSString * const kDBFolderName = @"baseDB";
 - (instancetype)init {
     self = [super init];
     if (self) {
-        NSString* folderPath = [NSFileManager forderPathWithFolderName:kDBFolderName directoriesPath:DocumentPath()];
-        self.queue = [[FMDatabaseQueue alloc] initWithPath:
-                  [NSFileManager pathWithFileName:kDBFileName foldPath:folderPath]];
-        self.gcd_queue = dispatch_queue_create("SerialQueue", NULL);
+        NSString *folderPath = [NSFileManager forderPathWithFolderName:kDBFolderName directoriesPath:DocumentPath()];
+        NSString *filePath = [NSFileManager pathWithFileName:kDBFileName foldPath:folderPath];
+        _dbQueue = [[FMDatabaseQueue alloc] initWithPath:filePath];
+        
+        _gcdQueue = dispatch_queue_create("com.MKDBStorage.queue", NULL);
         self.lock = [[NSLock alloc] init];
     }
     return self;
 }
 
-- (NSMutableDictionary *)queues {
-    if (_queues == nil) {
-        _queues = [NSMutableDictionary dictionaryWithCapacity:6];
+- (NSMutableDictionary *)queueItems {
+    if (_queueItems == nil) {
+        _queueItems = [NSMutableDictionary dictionaryWithCapacity:6];
     }
-    return _queues;
+    return _queueItems;
 }
 
 - (void)addDb:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
     MKDBQueueItem* item = [[MKDBQueueItem alloc] initWithDb:dbName gcdQueue:gcdQueue];
     
     [_lock lock];
-    [self.queues setSafeObject:item forKey:[dbName MD5]];
+    [self.queueItems setSafeObject:item forKey:[dbName MD5]];
     [_lock unlock];
 }
 
 - (FMDatabaseQueue *)getDbQueueWithDbName:(NSString *)dbName {
     [_lock lock];
-    MKDBQueueItem* item = [self.queues objectForKey:[dbName MD5]];
+    MKDBQueueItem* item = [self.queueItems objectForKey:[dbName MD5]];
     [_lock unlock];
     
     if (item && item.dbQueue) {
@@ -89,18 +77,18 @@ static NSString * const kDBFolderName = @"baseDB";
 
 - (dispatch_queue_t)getGcdQueueWithDbName:(NSString *)dbName {
     [_lock lock];
-    MKDBQueueItem* item = [self.queues objectForKey:[dbName MD5]];
+    MKDBQueueItem* item = [self.queueItems objectForKey:[dbName MD5]];
     [_lock unlock];
     
     if (item && item.gcdQueue) {
         return item.gcdQueue;
     }
-    return _gcd_queue;
+    return _gcdQueue;
 }
 
 - (void)removeDb:(NSString *)dbName {
     [_lock lock];
-    [self.queues removeSafeOjectForKey:[dbName MD5]];
+    [self.queueItems removeSafeOjectForKey:[dbName MD5]];
     [_lock unlock];
 }
 

@@ -11,9 +11,9 @@
 
 @interface MKDBStorage : NSObject
 
-@property (nonatomic, strong, readonly) FMDatabaseQueue* queue;
+@property (nonatomic, strong, readonly) FMDatabaseQueue* dbQueue;
 
-@property (nonatomic, strong, readonly) dispatch_queue_t gcd_queue;
+@property (nonatomic, strong, readonly) dispatch_queue_t gcdQueue;
 
 @property (nonatomic, strong) NSString* tableName;
 

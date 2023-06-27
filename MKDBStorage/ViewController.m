@@ -6,7 +6,7 @@
 //
 
 #import "ViewController.h"
-#import "MKKVOStorage.h"
+#import "MKKVStorage.h"
 #import "MKTestDBStorage.h"
 #import "MKArchivesDoubleModel.h"
 
@@ -22,10 +22,10 @@
     
     /* 储存 */
     for (int i=0; i<500; i++) {
-        [[MKKVOStorage sharedInstance] saveDataWithValue:@"233333" forKey:[NSString stringWithFormat:@"%dsfsdfsdf", i]];
+        [[MKKVStorage sharedInstance] saveDataWithValue:@"233333" forKey:[NSString stringWithFormat:@"%dsfsdfsdf", i]];
     }
     
-    [[MKKVOStorage sharedInstance] getValueForKey:[NSString stringWithFormat:@"%dsfsdfsdf", 0] completion:^(id  _Nonnull response) {
+    [[MKKVStorage sharedInstance] getValueForKey:[NSString stringWithFormat:@"%dsfsdfsdf", 0] completion:^(id  _Nonnull response) {
         
     }];
     
@@ -33,7 +33,7 @@
      MKTestDBModel 继承于 MKDBModel
      MKTestDBStorage 继承于 MKDBStorage
      */
-    MKTestDBStorage* otherDataBase = [[MKTestDBStorage alloc] initWithDbName:@"dataBase" gcdQueue:nil];
+    MKTestDBStorage* otherDataBase = [[MKTestDBStorage alloc] initWithDbName:@"test.db" gcdQueue:nil];
     [otherDataBase saveData];
     [otherDataBase selectData];
     

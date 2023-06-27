@@ -11,11 +11,8 @@
 @implementation MKTestDBStorage
 
 - (void)initDatas {
-    
     self.tableName = @"test_db_table";
-    
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        
         if ([db tableExists:self.tableName] == NO) {
             [db creatWithTableName:self.tableName dataBaseModel:[MKTestDBModel class]];
         }
@@ -27,11 +24,9 @@
 }
 
 - (void)saveData {
-    
     NSLog(@"startDate:=====%.2f",[[NSDate date] timeIntervalSince1970]);
     
     NSMutableArray* mArr = [NSMutableArray arrayWithCapacity:500];
-    
     for (int i=0; i<500; i++) {
         MKTestDBModel* data = [MKTestDBModel new];
         data.age = 25;
@@ -50,14 +45,11 @@
     }];
 }
 
-- (NSArray*) selectData {
-    
+- (NSArray*)selectData {
     NSArray* dataArr = [self selectWithQuery:[NSString stringWithFormat:@"select * from %@", self.tableName] modelClass:@"MKTestDBModel"];
-    
     if (dataArr.count > 2700) {//多于2700条数据后删除
         [self deleteWithQuery:[NSString stringWithFormat:@"delete from %@", self.tableName]];
     }
-    
     return dataArr;
 }
 

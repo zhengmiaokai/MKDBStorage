@@ -1,5 +1,5 @@
 //
-//  MKKVOStorage.h
+//  MKKVStorage.h
 //  Basic
 //
 //  Created by mikazheng on 2019/11/29.
@@ -10,7 +10,7 @@
 
 typedef void(^MKDBCompletionHandler)(id response);
 
-@protocol MKKVOStorageDelegate <NSObject>
+@protocol MKKVStorageDelegate <NSObject>
 
 - (void)saveDataWithValue:(id)value forKey:(NSString *)key;
 - (void)saveDataWithValue:(id)value forKey:(NSString *)key tableName:(NSString *)tableName;
@@ -23,7 +23,7 @@ typedef void(^MKDBCompletionHandler)(id response);
 
 @end
 
-@interface MKKVOStorage : MKDBStorage <MKKVOStorageDelegate>
+@interface MKKVStorage : MKDBStorage <MKKVStorageDelegate>
 
 + (instancetype)sharedInstance;
 

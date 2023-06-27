@@ -14,10 +14,10 @@
 + (instancetype)shareInstance;
 
 /// 默认DBQueue
-- (FMDatabaseQueue *)getDbQueue;
+@property (nonatomic, strong, readonly) FMDatabaseQueue* dbQueue;
 
 /// 默认GCDQueue
-- (dispatch_queue_t)get_gcd_queue;
+@property (nonatomic, strong, readonly) dispatch_queue_t gcdQueue;
 
 - (void)addDb:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
 

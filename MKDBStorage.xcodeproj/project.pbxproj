@@ -18,7 +18,7 @@
 		D5955B7D262E80A3008BD47A /* MKDBQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B75262E80A2008BD47A /* MKDBQueue.m */; };
 		D5955B7E262E80A3008BD47A /* MKDBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B76262E80A2008BD47A /* MKDBModel.m */; };
 		D5955B7F262E80A3008BD47A /* MKDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B77262E80A2008BD47A /* MKDBStorage.m */; };
-		D5955B80262E80A3008BD47A /* MKKVOStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B78262E80A2008BD47A /* MKKVOStorage.m */; };
+		D5955B80262E80A3008BD47A /* MKKVStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B78262E80A2008BD47A /* MKKVStorage.m */; };
 		D5955B81262E80A3008BD47A /* MKDBhandle.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B79262E80A2008BD47A /* MKDBhandle.m */; };
 		D5955B8E262E84D9008BD47A /* MKTestDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B8C262E84D9008BD47A /* MKTestDBStorage.m */; };
 		D5955B92262E8510008BD47A /* MKTestDBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B90262E8510008BD47A /* MKTestDBModel.m */; };
@@ -42,11 +42,11 @@
 		D5955B64262E7CC8008BD47A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5955B65262E7CC8008BD47A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D5955B73262E80A2008BD47A /* MKDBhandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDBhandle.h; sourceTree = "<group>"; };
-		D5955B74262E80A2008BD47A /* MKKVOStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKKVOStorage.h; sourceTree = "<group>"; };
+		D5955B74262E80A2008BD47A /* MKKVStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKKVStorage.h; sourceTree = "<group>"; };
 		D5955B75262E80A2008BD47A /* MKDBQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBQueue.m; sourceTree = "<group>"; };
 		D5955B76262E80A2008BD47A /* MKDBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBModel.m; sourceTree = "<group>"; };
 		D5955B77262E80A2008BD47A /* MKDBStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBStorage.m; sourceTree = "<group>"; };
-		D5955B78262E80A2008BD47A /* MKKVOStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKKVOStorage.m; sourceTree = "<group>"; };
+		D5955B78262E80A2008BD47A /* MKKVStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKKVStorage.m; sourceTree = "<group>"; };
 		D5955B79262E80A2008BD47A /* MKDBhandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBhandle.m; sourceTree = "<group>"; };
 		D5955B7A262E80A2008BD47A /* MKDBQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDBQueue.h; sourceTree = "<group>"; };
 		D5955B7B262E80A2008BD47A /* MKDBStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDBStorage.h; sourceTree = "<group>"; };
@@ -133,8 +133,8 @@
 				D5955B75262E80A2008BD47A /* MKDBQueue.m */,
 				D5955B7B262E80A2008BD47A /* MKDBStorage.h */,
 				D5955B77262E80A2008BD47A /* MKDBStorage.m */,
-				D5955B74262E80A2008BD47A /* MKKVOStorage.h */,
-				D5955B78262E80A2008BD47A /* MKKVOStorage.m */,
+				D5955B74262E80A2008BD47A /* MKKVStorage.h */,
+				D5955B78262E80A2008BD47A /* MKKVStorage.m */,
 			);
 			path = DataBase;
 			sourceTree = "<group>";
@@ -253,7 +253,7 @@
 				D5955B7F262E80A3008BD47A /* MKDBStorage.m in Sources */,
 				D5955B66262E7CC8008BD47A /* main.m in Sources */,
 				D5955B92262E8510008BD47A /* MKTestDBModel.m in Sources */,
-				D5955B80262E80A3008BD47A /* MKKVOStorage.m in Sources */,
+				D5955B80262E80A3008BD47A /* MKKVStorage.m in Sources */,
 				D5955B58262E7CC6008BD47A /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

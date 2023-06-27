@@ -9,10 +9,6 @@
 #import "MKDBhandle.h"
 #import <MKUtils/NSObject+Additions.h>
 
-NSString * const kFieldTypeString = @"text";
-NSString * const kFieldTypeInt = @"integer";
-NSString * const kFieldTypeData = @"blob";
-
 @implementation FMDatabase (Addition)
 
 - (BOOL)saveWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel {
@@ -68,17 +64,17 @@ NSString * const kFieldTypeData = @"blob";
 }
 
 - (BOOL)selectWithQuery:(NSString*)query resultBlock:(void(^)(FMResultSet *result))resultBlock {
-    BOOL isSuccess = NO;
+    BOOL success = NO;
     FMResultSet* result =  [self executeQuery:query /*@"select count(*) as count  from countryCodeTable"*/ ];
     while ([result next]) {
-        isSuccess = YES;
+        success = YES;
         if (resultBlock != nil) {
             resultBlock(result);
         }
         break;
     }
     [result close];
-    return isSuccess;
+    return success;
 }
 
 - (BOOL)deleteWithQuery:(NSString*)query {

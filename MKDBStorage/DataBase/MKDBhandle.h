@@ -10,9 +10,9 @@
 #import "MKDBModel.h"
 #import <fmdb/FMDB.h>
 
-extern NSString * const kFieldTypeString;
-extern NSString * const kFieldTypeInt;
-extern NSString * const kFieldTypeData;
+#define kFieldTypeString   @"text"
+#define kFieldTypeInt      @"integer"
+#define kFieldTypeData     @"blob"
 
 @interface FMDatabase (Addition)
 

@@ -20,8 +20,8 @@
 - (id)init {
     self = [super init];
     if (self) {
-        _queue = [[MKDBQueue shareInstance] getDbQueue];
-        _gcd_queue = [[MKDBQueue shareInstance] get_gcd_queue];
+        _dbQueue = [MKDBQueue shareInstance].dbQueue;
+        _gcdQueue = [MKDBQueue shareInstance].gcdQueue;
         
         [self initDatas];
     }
@@ -32,8 +32,8 @@
     self = [super init];
     if (self) {
         [[MKDBQueue shareInstance] addDb:dbName gcdQueue:gcdQueue];
-        _queue = [[MKDBQueue shareInstance] getDbQueueWithDbName:dbName];
-        _gcd_queue = [[MKDBQueue shareInstance] getGcdQueueWithDbName:dbName];
+        _dbQueue = [[MKDBQueue shareInstance] getDbQueueWithDbName:dbName];
+        _gcdQueue = [[MKDBQueue shareInstance] getGcdQueueWithDbName:dbName];
         
         [self initDatas];
     }
@@ -52,18 +52,18 @@
 - (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block  isAsync:(BOOL)async completion:(void(^)(void))completion {
     if (async) {
         @weakify(self);
-        dispatch_async(_gcd_queue, ^{
+        dispatch_async(_gcdQueue, ^{
             @strongify(self);
-            [self.queue inTransaction:block];
-            [self.queue close];
+            [self.dbQueue inTransaction:block];
+            [self.dbQueue close];
             
             if (completion) {
                 completion();
             }
         });
     } else {
-        [_queue inTransaction:block];
-        [_queue close];
+        [_dbQueue inTransaction:block];
+        [_dbQueue close];
         
         if (completion) {
             completion();
