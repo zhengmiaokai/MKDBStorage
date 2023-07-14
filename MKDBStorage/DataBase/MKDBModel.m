@@ -7,11 +7,9 @@
 //
 
 #import "MKDBModel.h"
-#import <MKUtils/NSArray+Additions.h>
-#import <MKUtils/NSDictionary+Additions.h>
-#import <MKUtils/NSObject+Additions.h>
 #import <fmdb/FMDB.h>
-
+#import "NSObject+Additions.h"
+#import "NSArray+Additions.h"
 
 @implementation MKDBModel
 
@@ -29,8 +27,8 @@
         NSArray* types = [self generatePropertyTypes];
         
         for (int i=0; i<keys.count; i++) {
-            NSString* key = [keys safeObjectAtIndex:i];
-            NSString* type = [types safeObjectAtIndex:i];
+            NSString* key = [keys dbObjectAtIndex:i];
+            NSString* type = [types dbObjectAtIndex:i];
             
             if ([type isEqualToString:@"NSString"]) {
                 [self setValue:[res stringForColumn:key] forKey:key];

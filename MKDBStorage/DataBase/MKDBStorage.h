@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MKDBhandle.h"
 
-@protocol MKDBStorage <NSObject>
+@protocol MKDBStorage
 
 @required
 - (void)onLoad;

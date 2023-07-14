@@ -5,9 +5,4 @@ target "MKDBStorage" do
 
 pod 'FMDB', '~> 2.7.5'
 
-source 'https://github.com/zhengmiaokai/Specs.git'
-
-pod 'MKUtils/Extern', '~>1.0.1'
-pod 'MKBasic/Model', '~>1.0.0'
-
 end

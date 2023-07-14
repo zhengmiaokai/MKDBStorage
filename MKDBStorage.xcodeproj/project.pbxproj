@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0332B6FC2A615462004DC7F8 /* NSObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B6FB2A615462004DC7F8 /* NSObject+Additions.m */; };
+		0332B7022A6156D1004DC7F8 /* NSArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B7002A6156D1004DC7F8 /* NSArray+Additions.m */; };
+		0332B7052A615768004DC7F8 /* NSDictionary+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B7042A615768004DC7F8 /* NSDictionary+Additions.m */; };
+		0332B7082A615807004DC7F8 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B7062A615807004DC7F8 /* NSString+Additions.m */; };
+		0332B70B2A6158B4004DC7F8 /* NSFileManager+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B70A2A6158B4004DC7F8 /* NSFileManager+Additions.m */; };
+		0332B7112A6159D2004DC7F8 /* MKArchivesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B70E2A6159D1004DC7F8 /* MKArchivesModel.m */; };
+		0332B7122A6159D2004DC7F8 /* MKBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B70F2A6159D2004DC7F8 /* MKBaseModel.m */; };
 		A40E203644E8C6844811624B /* libPods-MKDBStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 583071A4F433E428065256B0 /* libPods-MKDBStorage.a */; };
 		D5955B55262E7CC6008BD47A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B54262E7CC6008BD47A /* AppDelegate.m */; };
 		D5955B58262E7CC6008BD47A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B57262E7CC6008BD47A /* SceneDelegate.m */; };
@@ -26,6 +33,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0332B6FA2A615462004DC7F8 /* NSObject+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Additions.h"; sourceTree = "<group>"; };
+		0332B6FB2A615462004DC7F8 /* NSObject+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Additions.m"; sourceTree = "<group>"; };
+		0332B7002A6156D1004DC7F8 /* NSArray+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Additions.m"; sourceTree = "<group>"; };
+		0332B7012A6156D1004DC7F8 /* NSArray+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Additions.h"; sourceTree = "<group>"; };
+		0332B7032A615768004DC7F8 /* NSDictionary+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Additions.h"; sourceTree = "<group>"; };
+		0332B7042A615768004DC7F8 /* NSDictionary+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Additions.m"; sourceTree = "<group>"; };
+		0332B7062A615807004DC7F8 /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
+		0332B7072A615807004DC7F8 /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
+		0332B7092A6158B4004DC7F8 /* NSFileManager+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Additions.h"; sourceTree = "<group>"; };
+		0332B70A2A6158B4004DC7F8 /* NSFileManager+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Additions.m"; sourceTree = "<group>"; };
+		0332B70D2A6159D1004DC7F8 /* MKBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKBaseModel.h; sourceTree = "<group>"; };
+		0332B70E2A6159D1004DC7F8 /* MKArchivesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKArchivesModel.m; sourceTree = "<group>"; };
+		0332B70F2A6159D2004DC7F8 /* MKBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKBaseModel.m; sourceTree = "<group>"; };
+		0332B7102A6159D2004DC7F8 /* MKArchivesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKArchivesModel.h; sourceTree = "<group>"; };
 		583071A4F433E428065256B0 /* libPods-MKDBStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MKDBStorage.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BADFDD751962938D2956EFE /* Pods-MKDBStorage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKDBStorage.release.xcconfig"; path = "Target Support Files/Pods-MKDBStorage/Pods-MKDBStorage.release.xcconfig"; sourceTree = "<group>"; };
 		987DBD1926C0B02CD9CAB53E /* Pods-MKDBStorage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKDBStorage.debug.xcconfig"; path = "Target Support Files/Pods-MKDBStorage/Pods-MKDBStorage.debug.xcconfig"; sourceTree = "<group>"; };
@@ -71,6 +92,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0332B6F32A615419004DC7F8 /* Catogerys */ = {
+			isa = PBXGroup;
+			children = (
+				0332B6FA2A615462004DC7F8 /* NSObject+Additions.h */,
+				0332B6FB2A615462004DC7F8 /* NSObject+Additions.m */,
+				0332B7012A6156D1004DC7F8 /* NSArray+Additions.h */,
+				0332B7002A6156D1004DC7F8 /* NSArray+Additions.m */,
+				0332B7032A615768004DC7F8 /* NSDictionary+Additions.h */,
+				0332B7042A615768004DC7F8 /* NSDictionary+Additions.m */,
+				0332B7072A615807004DC7F8 /* NSString+Additions.h */,
+				0332B7062A615807004DC7F8 /* NSString+Additions.m */,
+				0332B7092A6158B4004DC7F8 /* NSFileManager+Additions.h */,
+				0332B70A2A6158B4004DC7F8 /* NSFileManager+Additions.m */,
+			);
+			path = Catogerys;
+			sourceTree = "<group>";
+		};
+		0332B70C2A615968004DC7F8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0332B70D2A6159D1004DC7F8 /* MKBaseModel.h */,
+				0332B70F2A6159D2004DC7F8 /* MKBaseModel.m */,
+				0332B7102A6159D2004DC7F8 /* MKArchivesModel.h */,
+				0332B70E2A6159D1004DC7F8 /* MKArchivesModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		41CD34807EAD7E69046DCB7E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +162,8 @@
 				D5955BDA262EB90A008BD47A /* MKArchivesDoubleModel.h */,
 				D5955BD9262EB90A008BD47A /* MKArchivesDoubleModel.m */,
 				D5955B72262E80A2008BD47A /* DataBase */,
+				0332B70C2A615968004DC7F8 /* Models */,
+				0332B6F32A615419004DC7F8 /* Catogerys */,
 				D5955B5C262E7CC6008BD47A /* Main.storyboard */,
 				D5955B5F262E7CC8008BD47A /* Assets.xcassets */,
 				D5955B61262E7CC8008BD47A /* LaunchScreen.storyboard */,
@@ -245,15 +296,22 @@
 			files = (
 				D5955BDB262EB90A008BD47A /* MKArchivesDoubleModel.m in Sources */,
 				D5955B7D262E80A3008BD47A /* MKDBQueue.m in Sources */,
+				0332B6FC2A615462004DC7F8 /* NSObject+Additions.m in Sources */,
+				0332B7052A615768004DC7F8 /* NSDictionary+Additions.m in Sources */,
 				D5955B5B262E7CC6008BD47A /* ViewController.m in Sources */,
+				0332B7022A6156D1004DC7F8 /* NSArray+Additions.m in Sources */,
 				D5955B8E262E84D9008BD47A /* MKTestDBStorage.m in Sources */,
+				0332B7122A6159D2004DC7F8 /* MKBaseModel.m in Sources */,
 				D5955B55262E7CC6008BD47A /* AppDelegate.m in Sources */,
 				D5955B7E262E80A3008BD47A /* MKDBModel.m in Sources */,
 				D5955B81262E80A3008BD47A /* MKDBhandle.m in Sources */,
+				0332B7112A6159D2004DC7F8 /* MKArchivesModel.m in Sources */,
 				D5955B7F262E80A3008BD47A /* MKDBStorage.m in Sources */,
 				D5955B66262E7CC8008BD47A /* main.m in Sources */,
 				D5955B92262E8510008BD47A /* MKTestDBModel.m in Sources */,
 				D5955B80262E80A3008BD47A /* MKKVStorage.m in Sources */,
+				0332B70B2A6158B4004DC7F8 /* NSFileManager+Additions.m in Sources */,
+				0332B7082A615807004DC7F8 /* NSString+Additions.m in Sources */,
 				D5955B58262E7CC6008BD47A /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -6,7 +6,7 @@
 //  Copyright © 2016年 zhengmiaokai. All rights reserved.
 //
 
-#import <MKBasic/MKArchivesModel.h>
+#import "MKArchivesModel.h"
 
 @interface MKPropertyA : MKArchivesModel
 

@@ -7,15 +7,15 @@
 //
 
 #import "MKDBQueue.h"
-#import <MKUtils/NSFileManager+Addition.h>
-#import <MKUtils/NSString+Sign.h>
-#import <MKUtils/NSDictionary+Additions.h>
+#import "NSDictionary+Additions.h"
+#import "NSString+Additions.h"
+#import "NSFileManager+Additions.h"
 
 #define LOCK(...) dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER); \
 __VA_ARGS__; \
 dispatch_semaphore_signal(_lock);
 
-//Users/lexin/Library/Developer/CoreSimulator/Devices/4B984E3D-F67C-41FE-B198-E329FE726D55/data/Containers/Data/Application/77F23825-BE3F-42F1-AA68-7E5A1D9BF99D/Documents/DBStorage/base.db
+//Users/zhengmiaokai/Library/Developer/CoreSimulator/Devices/4B984E3D-F67C-41FE-B198-E329FE726D55/data/Containers/Data/Application/77F23825-BE3F-42F1-AA68-7E5A1D9BF99D/Documents/DBStorage/base.db
 
 #define kDBFileName    @"base.db"
 #define kDBFolderName  @"DBStorage"
@@ -43,7 +43,7 @@ dispatch_semaphore_signal(_lock);
 - (instancetype)init {
     self = [super init];
     if (self) {
-        NSString *folderPath = [NSFileManager forderPathWithFolderName:kDBFolderName directoriesPath:DocumentPath()];
+        NSString *folderPath = [NSFileManager folderPathWithFolderName:kDBFolderName directoriesPath:DocumentPath()];
         NSString *filePath = [NSFileManager pathWithFileName:kDBFileName foldPath:folderPath];
         _dbQueue = [[FMDatabaseQueue alloc] initWithPath:filePath];
         
@@ -57,7 +57,7 @@ dispatch_semaphore_signal(_lock);
 
 - (void)addDbQueue:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
     MKDBQueueItem* item = [[MKDBQueueItem alloc] initWithDbName:dbName gcdQueue:gcdQueue];
-    LOCK([self.queueItems setSafeObject:item forKey:[dbName MD5]]);
+    LOCK([self.queueItems dbSetObject:item forKey:[dbName MD5]]);
 }
 
 - (FMDatabaseQueue *)getDbQueueWithDbName:(NSString *)dbName {
@@ -74,7 +74,7 @@ dispatch_semaphore_signal(_lock);
 }
 
 - (void)removeDbQueue:(NSString *)dbName {
-    LOCK([self.queueItems removeSafeOjectForKey:[dbName MD5]]);
+    LOCK([self.queueItems dbRemoveOjectForKey:[dbName MD5]]);
 }
 
 @end
@@ -84,7 +84,7 @@ dispatch_semaphore_signal(_lock);
 - (id)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
     self = [super init];
     if (self) {
-        NSString* folderPath = [NSFileManager forderPathWithFolderName:kDBFolderName directoriesPath:DocumentPath()];
+        NSString* folderPath = [NSFileManager folderPathWithFolderName:kDBFolderName directoriesPath:DocumentPath()];
         self.dbQueue = [[FMDatabaseQueue alloc] initWithPath:
                   [NSFileManager pathWithFileName:dbName foldPath:folderPath]];
         self.gcdQueue = gcdQueue;

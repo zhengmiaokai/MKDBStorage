@@ -6,10 +6,10 @@
 //  Copyright © 2016年 zhengmiaokai. All rights reserved.
 //
 
-#import <MKBasic/MKBasicModel.h>
+#import "MKBaseModel.h"
 @class FMResultSet;
 
-@interface MKDBModel : MKBasicModel
+@interface MKDBModel : MKBaseModel
 
 - (instancetype)initWithDBRes:(FMResultSet *)res;
 

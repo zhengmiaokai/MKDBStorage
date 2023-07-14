@@ -7,7 +7,7 @@
 //
 
 #import "MKDBhandle.h"
-#import <MKUtils/NSObject+Additions.h>
+#import "NSObject+Additions.h"
 
 @implementation FMDatabase (Addition)
 

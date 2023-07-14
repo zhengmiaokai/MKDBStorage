@@ -7,7 +7,6 @@
 //
 
 #import "MKKVStorage.h"
-#import <MKUtils/MarcoConstant.h>
 
 #define kMKKVDbName  @"KVStorage.db"
 
@@ -86,9 +85,7 @@ dispatch_semaphore_signal(self.lock);
         }
     } else {
         __block MKKeyValueDBItem *storageItem = nil;
-        @weakify(self);
         [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            @strongify(self);
             NSString* query = [NSString stringWithFormat:@"select * from %@ where key = '%@'", (tableName ? tableName : self.tableName), key];
             [db selectWithQuery:query resultBlock:^(FMResultSet * _Nonnull result) {
                 storageItem = [MKKeyValueDBItem itemWithResult:result];

@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MKDBModel.h"
 #import <fmdb/FMDB.h>
+#import "MKDBModel.h"
 
 #define kFieldTypeString   @"text"
 #define kFieldTypeInt      @"integer"

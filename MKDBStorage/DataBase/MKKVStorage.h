@@ -10,7 +10,7 @@
 
 typedef void(^MKDBCompletionHandler)(id response);
 
-@protocol MKKVStorageDelegate <NSObject>
+@protocol MKKVStorageDelegate
 
 - (void)saveDataWithValue:(id)value forKey:(NSString *)key;
 - (void)saveDataWithValue:(id)value forKey:(NSString *)key tableName:(NSString *)tableName;

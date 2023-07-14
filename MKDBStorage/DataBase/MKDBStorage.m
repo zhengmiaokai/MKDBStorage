@@ -8,8 +8,7 @@
 
 #import "MKDBStorage.h"
 #import "MKDBQueue.h"
-#import <MKUtils/MarcoConstant.h>
-#import <MKUtils/NSArray+Additions.h>
+#import "NSArray+Additions.h"
 
 @interface MKDBStorage ()
 
@@ -53,9 +52,7 @@
 
 - (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block  isAsync:(BOOL)async completion:(void(^)(void))completion {
     if (async) {
-        @weakify(self);
         dispatch_async(_gcdQueue, ^{
-            @strongify(self);
             [self.dbQueue inTransaction:block];
             [self.dbQueue close];
             
@@ -82,7 +79,7 @@
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
         success = NO;
         for (int i=0; i<list.count; i++){
-            MKDBModel* data = [list safeObjectAtIndex:i];
+            MKDBModel* data = [list dbObjectAtIndex:i];
             success = [db insertWithTableName:table dataBaseModel:data];
             if (success == NO) {
                 break;
@@ -101,7 +98,7 @@
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
         success = NO;
         for (int i=0; i<list.count; i++){
-            MKDBModel* data = [list safeObjectAtIndex:i];
+            MKDBModel* data = [list dbObjectAtIndex:i];
             success = [db insertWithTableName:table dataBaseModel:data];
             if (success == NO) {
                 break;
