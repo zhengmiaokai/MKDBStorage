@@ -27,10 +27,10 @@
     return self;
 }
 
-- (id)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
+- (instancetype)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
     self = [super init];
     if (self) {
-        [[MKDBQueue shareInstance] addDbQueue:dbName gcdQueue:gcdQueue];
+        [[MKDBQueue shareInstance] addDBQueue:dbName gcdQueue:gcdQueue];
         _dbQueue = [[MKDBQueue shareInstance] getDbQueueWithDbName:dbName];
         _gcdQueue = [[MKDBQueue shareInstance] getGcdQueueWithDbName:dbName];
         
@@ -45,9 +45,37 @@
 
 - (NSString *)tableName {
     if (_tableName == nil) {
-        _tableName = [NSString stringWithFormat:@"%@_db",NSStringFromClass([self class])];
+        _tableName = [NSString stringWithFormat:@"%@_db_table",NSStringFromClass([self class])];
     }
     return _tableName;
+}
+
+- (void)inDatabase:(void (^)(FMDatabase *db))block {
+    [self inDatabase:block isAsync:NO completion:nil];
+}
+
+- (void)inDatabase:(void (^)(FMDatabase *db))block isAsync:(BOOL)async completion:(void(^)(void))completion {
+    if (async) {
+        dispatch_async(_gcdQueue, ^{
+            [self.dbQueue inDatabase:block];
+            [self.dbQueue close];
+            
+            if (completion) {
+                completion();
+            }
+        });
+    } else {
+        [_dbQueue inDatabase:block];
+        [_dbQueue close];
+        
+        if (completion) {
+            completion();
+        }
+    }
+}
+
+- (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block {
+    [self inTransaction:block isAsync:NO completion:nil];
 }
 
 - (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block  isAsync:(BOOL)async completion:(void(^)(void))completion {
@@ -68,10 +96,6 @@
             completion();
         }
     }
-}
-
-- (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block {
-    [self inTransaction:block isAsync:NO completion:nil];
 }
 
 - (BOOL)saveDataWithList:(NSArray <MKDBModel *>*)list table:(NSString *)table {
@@ -117,22 +141,16 @@
 
 - (BOOL)saveDataWithData:(MKDBModel *)data table:(NSString *)table {
     __block BOOL success;
-    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self inDatabase:^(FMDatabase *db) {
         success = [db insertWithTableName:table dataBaseModel:data];
-        if (success == NO) {
-            *rollback = YES;
-        }
     }];
     return success;
 }
 
 - (void)saveDataWithData:(MKDBModel *)data table:(NSString *)table isAsync:(BOOL)isAsync callBack:(void(^)(BOOL))callBack {
     __block BOOL success;
-    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self inDatabase:^(FMDatabase *db) {
         success = [db insertWithTableName:table dataBaseModel:data];
-        if (success == NO) {
-            *rollback = YES;
-        }
     } isAsync:isAsync completion:^{
         if (callBack) {
             callBack(success);
@@ -142,22 +160,16 @@
 
 - (BOOL)deleteWithQuery:(NSString *)query {
     __block BOOL success;
-    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self inDatabase:^(FMDatabase *db) {
         success = [db deleteWithQuery:query];
-        if (success == NO) {
-            *rollback = YES;
-        }
     }];
     return success;
 }
 
 - (void)deleteWithQuery:(NSString *)query isAsync:(BOOL)isAsync callBack:(void(^)(BOOL))callBack {
     __block BOOL success;
-    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self inDatabase:^(FMDatabase *db) {
         success = [db deleteWithQuery:query];
-        if (success == NO) {
-            *rollback = YES;
-        }
     } isAsync:isAsync completion:^{
         if (callBack) {
             callBack(success);
@@ -167,18 +179,16 @@
 
 - (NSArray *)selectWithQuery:(NSString *)query modelClass:(NSString *)modelClass {
     __block NSArray* dataArr;
-    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self inDatabase:^(FMDatabase *db) {
         dataArr = [db selectWithQuery:query dataBaseModel:modelClass];
     }];
-    
     return dataArr;
 }
 
 - (void)selectWithQuery:(NSString *)query modelClass:(NSString *)modelClass isAsync:(BOOL)isAsync callBack:(void(^)(NSArray *))callBack {
     __block NSArray* dataArr;
-    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self inDatabase:^(FMDatabase *db) {
         dataArr = [db selectWithQuery:query dataBaseModel:modelClass];
-        
     } isAsync:isAsync completion:^{
         if (callBack) {
             callBack(dataArr);

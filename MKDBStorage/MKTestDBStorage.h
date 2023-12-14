@@ -11,8 +11,7 @@
 
 @interface MKTestDBStorage : MKDBStorage
 
-- (NSArray*)selectData;
-
-- (void)saveData;
+- (void)saveData:(void(^)(BOOL success))callBack;
+- (void)selectData:(void(^)(NSArray * datas))callBack;
 
 @end

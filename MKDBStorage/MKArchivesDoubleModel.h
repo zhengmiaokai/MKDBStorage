@@ -37,6 +37,8 @@
 @property (strong, nonatomic) NSString* tahao;
 @property (strong, nonatomic) MKPropertyA* propertyA;
 
-- (void)save_and_find;
+- (BOOL)saveData;
+
+- (MKArchivesDoubleModel *)selectData;
 
 @end

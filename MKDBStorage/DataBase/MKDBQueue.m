@@ -15,11 +15,8 @@
 __VA_ARGS__; \
 dispatch_semaphore_signal(_lock);
 
-//Users/zhengmiaokai/Library/Developer/CoreSimulator/Devices/4B984E3D-F67C-41FE-B198-E329FE726D55/data/Containers/Data/Application/77F23825-BE3F-42F1-AA68-7E5A1D9BF99D/Documents/DBStorage/base.db
-
-#define kDBFileName    @"base.db"
 #define kDBFolderName  @"DBStorage"
-
+#define kDBFileName    @"base.db"
 
 @interface MKDBQueue ()
 
@@ -31,13 +28,12 @@ dispatch_semaphore_signal(_lock);
 @implementation MKDBQueue
 
 + (instancetype)shareInstance {
-    static MKDBQueue *manager = nil;
+    static MKDBQueue *instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        manager = [[self alloc] init];
+        instance = [[self alloc] init];
     });
-    
-    return manager;
+    return instance;
 }
 
 - (instancetype)init {
@@ -47,7 +43,7 @@ dispatch_semaphore_signal(_lock);
         NSString *filePath = [NSFileManager pathWithFileName:kDBFileName foldPath:folderPath];
         _dbQueue = [[FMDatabaseQueue alloc] initWithPath:filePath];
         
-        _gcdQueue = dispatch_queue_create("com.MKDBStorage.queue", NULL);
+        _gcdQueue = dispatch_queue_create("com.DBStorage.queue", NULL);
         
         self.queueItems = [NSMutableDictionary dictionaryWithCapacity:2];
         self.lock = dispatch_semaphore_create(1);
@@ -55,7 +51,7 @@ dispatch_semaphore_signal(_lock);
     return self;
 }
 
-- (void)addDbQueue:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
+- (void)addDBQueue:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
     MKDBQueueItem* item = [[MKDBQueueItem alloc] initWithDbName:dbName gcdQueue:gcdQueue];
     LOCK([self.queueItems dbSetObject:item forKey:[dbName MD5]]);
 }
@@ -73,7 +69,7 @@ dispatch_semaphore_signal(_lock);
     return _gcdQueue;
 }
 
-- (void)removeDbQueue:(NSString *)dbName {
+- (void)removeDBQueue:(NSString *)dbName {
     LOCK([self.queueItems dbRemoveOjectForKey:[dbName MD5]]);
 }
 
@@ -81,7 +77,7 @@ dispatch_semaphore_signal(_lock);
 
 @implementation MKDBQueueItem
 
-- (id)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
+- (instancetype)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
     self = [super init];
     if (self) {
         NSString* folderPath = [NSFileManager folderPathWithFolderName:kDBFolderName directoriesPath:DocumentPath()];

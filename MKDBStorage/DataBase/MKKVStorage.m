@@ -2,7 +2,7 @@
 //  MKKVStorage.m
 //  Basic
 //
-//  Created by mikazheng on 2019/11/29.
+//  Created by zhengmiaokai on 2019/11/29.
 //  Copyright © 2019 zhengmiaokai. All rights reserved.
 //
 
@@ -41,7 +41,7 @@ dispatch_semaphore_signal(self.lock);
     static MKKVStorage *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^ {
-        dispatch_queue_t gcd_queue = dispatch_queue_create("com.MKKVStorage.queue", NULL);
+        dispatch_queue_t gcd_queue = dispatch_queue_create("com.KVStorage.queue", NULL);
         sharedInstance = [[self alloc] initWithDbName:kMKKVDbName gcdQueue:gcd_queue];
     });
     return sharedInstance;
@@ -57,49 +57,16 @@ dispatch_semaphore_signal(self.lock);
 }
 
 - (void)onLoad {
-    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        if ([db tableExists:self.tableName] == NO) {
-            [db creatWithTableName:self.tableName dataBaseModel:[MKKeyValueDBItem class]];
-        }
-    } isAsync:YES completion:nil];
+    self.tableName = @"KVStorage_db_table";
+    [self creatTableWithName:self.tableName];
 }
 
 - (void)creatTableWithName:(NSString *)tableName {
-    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self inDatabase:^(FMDatabase *db) {
         if ([db tableExists:tableName] == NO) {
             [db creatWithTableName:tableName dataBaseModel:[MKKeyValueDBItem class]];
         }
     } isAsync:YES completion:nil];
-}
-
-- (void)getValueForKey:(NSString *)key completion:(MKDBCompletionHandler)completionHandler {
-    [self getValueForKey:key tableName:nil completion:completionHandler];
-}
-
-- (void)getValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(MKDBCompletionHandler)completionHandler {
-    LOCK(MKKeyValueDBItem *_storageItem = [_storageItems objectForKey:key]);
-    
-    if (_storageItem) {
-        if (completionHandler) {
-            completionHandler(_storageItem.value);
-        }
-    } else {
-        __block MKKeyValueDBItem *storageItem = nil;
-        [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            NSString* query = [NSString stringWithFormat:@"select * from %@ where key = '%@'", (tableName ? tableName : self.tableName), key];
-            [db selectWithQuery:query resultBlock:^(FMResultSet * _Nonnull result) {
-                storageItem = [MKKeyValueDBItem itemWithResult:result];
-            }];
-        } isAsync:YES completion:^{
-            if (storageItem) {
-                LOCK([self.storageItems setObject:storageItem forKey:key]);
-            }
-            
-            if (completionHandler) {
-                completionHandler(storageItem.value);
-            }
-        }];
-    }
 }
 
 - (void)saveDataWithValue:(id)value forKey:(NSString *)key {
@@ -122,17 +89,62 @@ dispatch_semaphore_signal(self.lock);
     } isAsync:YES completion:nil];
 }
 
-- (void)removeForKey:(NSString *)key {
-    [self removeForKey:key tableName:nil];
+- (void)getValueForKey:(NSString *)key completion:(MKDBCompletionHandler)completionHandler {
+    [self getValueForKey:key tableName:nil completion:completionHandler];
 }
 
-- (void)removeForKey:(NSString *)key tableName:(NSString *)tableName {
+- (void)getValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(MKDBCompletionHandler)completionHandler {
+    LOCK(MKKeyValueDBItem *_storageItem = [_storageItems objectForKey:key]);
+    
+    if (_storageItem) {
+        if (completionHandler) {
+            completionHandler(_storageItem.value);
+        }
+    } else {
+        __block MKKeyValueDBItem *storageItem = nil;
+        [self inDatabase:^(FMDatabase *db) {
+            NSString* query = [NSString stringWithFormat:@"select * from %@ where key = '%@'", (tableName ? tableName : self.tableName), key];
+            [db selectWithQuery:query resultBlock:^(FMResultSet * _Nonnull result) {
+                storageItem = [MKKeyValueDBItem itemWithResult:result];
+            }];
+        } isAsync:YES completion:^{
+            if (storageItem) {
+                LOCK([self.storageItems setObject:storageItem forKey:key]);
+            }
+            
+            if (completionHandler) {
+                completionHandler(storageItem.value);
+            }
+        }];
+    }
+}
+
+- (void)removeValueForKey:(NSString *)key {
+    [self removeValueForKey:key tableName:nil];
+}
+
+- (void)removeValueForKey:(NSString *)key tableName:(NSString *)tableName {
     LOCK([_storageItems removeObjectForKey:key]);
     
-    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self inDatabase:^(FMDatabase *db) {
         NSString *query = [NSString stringWithFormat:@"delete from %@ where key = %@", (tableName ? tableName : self.tableName), key];
         [db deleteWithQuery:query];
     } isAsync:YES completion:nil];
+}
+
+- (void)removeValuesForKeys:(NSArray *)keys {
+    [self removeValuesForKeys:keys tableName:nil];
+}
+
+- (void)removeValuesForKeys:(NSArray *)keys tableName:(NSString *)tableName {
+    LOCK([_storageItems removeObjectsForKeys:keys]);
+    
+    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        for (NSString* key in keys) {
+            NSString* query = [NSString stringWithFormat:@"delete from %@ where key = '%@'", (tableName ? tableName : self.tableName), key];
+            [db deleteWithQuery:query];
+        }
+    }];
 }
 
 @end
@@ -141,15 +153,15 @@ dispatch_semaphore_signal(self.lock);
 
 + (instancetype)itemWithValue:(NSString *)value forKey:(NSString *)key {
     MKKeyValueDBItem* model = [[MKKeyValueDBItem alloc] init];
-    model.value = value;
     model.key = key;
+    model.value = value;
     return model;
 }
 
 + (instancetype)itemWithResult:(FMResultSet *)result {
     MKKeyValueDBItem* item = [[MKKeyValueDBItem alloc] init];
-    item.value = [result stringForColumn:@"value"];
     item.key = [result stringForColumn:@"key"];
+    item.value = [result stringForColumn:@"value"];
     return item;
 }
 

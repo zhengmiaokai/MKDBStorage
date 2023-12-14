@@ -19,19 +19,19 @@
 /// 默认GCDQueue
 @property (nonatomic, strong, readonly) dispatch_queue_t gcdQueue;
 
-- (void)addDbQueue:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
+- (void)addDBQueue:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
 
 - (FMDatabaseQueue *)getDbQueueWithDbName:(NSString *)dbName;
 
 - (dispatch_queue_t)getGcdQueueWithDbName:(NSString *)dbName;
 
-- (void)removeDbQueue:(NSString *)dbName;
+- (void)removeDBQueue:(NSString *)dbName;
 
 @end
 
 @interface MKDBQueueItem : NSObject
 
-- (id)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
+- (instancetype)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
 
 @property (nonatomic, strong) FMDatabaseQueue *dbQueue;
 @property (nonatomic, strong) dispatch_queue_t gcdQueue;

@@ -2,7 +2,7 @@
 //  NSDictionary+Additions.h
 //  Basic
 //
-//  Created by zhengMK on 16/4/2.
+//  Created by zhengmiaokai on 16/4/2.
 //  Copyright © 2016年 zhengmiaokai. All rights reserved.
 //
 

@@ -24,15 +24,16 @@
 
 @property (nonatomic, strong) NSString* tableName;
 
-/**
-数据库执行者初始化
-**/
-- (id)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
 
-/// 同步操作
+/// 实例初始化
+- (instancetype)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
+
+/// 非事务操作
+- (void)inDatabase:(void (^)(FMDatabase *db))block;
+- (void)inDatabase:(void (^)(FMDatabase *db))block isAsync:(BOOL)async completion:(void(^)(void))completion;
+
+/// 事务操作
 - (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block;
-
-/// 异步串行队列
 - (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block isAsync:(BOOL)async completion:(void(^)(void))completion;
 
 #pragma mark - 同步 -
