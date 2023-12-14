@@ -24,17 +24,16 @@
 
 @property (nonatomic, strong) NSString* tableName;
 
-
 /// 实例初始化
 - (instancetype)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
 
 /// 非事务操作
 - (void)inDatabase:(void (^)(FMDatabase *db))block;
-- (void)inDatabase:(void (^)(FMDatabase *db))block isAsync:(BOOL)async completion:(void(^)(void))completion;
+- (void)inDatabase:(void (^)(FMDatabase *db))block isAsync:(BOOL)async completion:(void(^)(void))completionHandler;
 
 /// 事务操作
 - (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block;
-- (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block isAsync:(BOOL)async completion:(void(^)(void))completion;
+- (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block isAsync:(BOOL)async completion:(void(^)(void))completionHandler;
 
 #pragma mark - 同步 -
 - (BOOL)saveDataWithList:(NSArray <MKDBModel*>*)list table:(NSString *)table;
@@ -46,12 +45,12 @@
 - (NSArray *)selectWithQuery:(NSString *)query modelClass:(NSString *)modelClass;
 
 #pragma mark - 异步 -
-- (void)saveDataWithList:(NSArray <MKDBModel *>*)list table:(NSString *)table isAsync:(BOOL)isAsync callBack:(void(^)(BOOL))callBack;
+- (void)saveDataWithList:(NSArray <MKDBModel *>*)list table:(NSString *)table isAsync:(BOOL)isAsync completion:(void(^)(BOOL))completionHandler;
 
-- (void)saveDataWithData:(MKDBModel *)data table:(NSString *)table isAsync:(BOOL)isAsync callBack:(void(^)(BOOL))callBack;
+- (void)saveDataWithData:(MKDBModel *)data table:(NSString *)table isAsync:(BOOL)isAsync completion:(void(^)(BOOL))completionHandler;
 
-- (void)deleteWithQuery:(NSString *)query isAsync:(BOOL)isAsync callBack:(void(^)(BOOL))callBack;
+- (void)deleteWithQuery:(NSString *)query isAsync:(BOOL)isAsync completion:(void(^)(BOOL))completionHandler;
 
-- (void)selectWithQuery:(NSString *)query modelClass:(NSString *)modelClass isAsync:(BOOL)isAsync callBack:(void(^)(NSArray *))callBack;
+- (void)selectWithQuery:(NSString *)query modelClass:(NSString *)modelClass isAsync:(BOOL)isAsync completion:(void(^)(NSArray *))completionHandler;
 
 @end

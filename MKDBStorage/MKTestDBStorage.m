@@ -40,7 +40,7 @@
         [mArr addObject:data];
     }
     
-    [self saveDataWithList:[mArr copy] table:self.tableName isAsync:YES callBack:^(BOOL success) {
+    [self saveDataWithList:[mArr copy] table:self.tableName isAsync:YES completion:^(BOOL success) {
         NSLog(@"endDate:=====%.3f",[[NSDate date] timeIntervalSince1970]);
         if (callBack) {
             callBack(success);
@@ -49,7 +49,7 @@
 }
 
 - (void)selectData:(void(^)(NSArray *datas))callBack {
-    [self selectWithQuery:[NSString stringWithFormat:@"select * from %@", self.tableName] modelClass:@"MKTestDBModel" isAsync:YES callBack:^(NSArray *datas) {
+    [self selectWithQuery:[NSString stringWithFormat:@"select * from %@", self.tableName] modelClass:@"MKTestDBModel" isAsync:YES completion:^(NSArray *datas) {
         if (datas.count > 2700) {//多于2700条数据后删除
             [self deleteWithQuery:[NSString stringWithFormat:@"delete from %@", self.tableName]];
         }

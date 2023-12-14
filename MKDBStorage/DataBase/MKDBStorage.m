@@ -54,22 +54,22 @@
     [self inDatabase:block isAsync:NO completion:nil];
 }
 
-- (void)inDatabase:(void (^)(FMDatabase *db))block isAsync:(BOOL)async completion:(void(^)(void))completion {
+- (void)inDatabase:(void (^)(FMDatabase *db))block isAsync:(BOOL)async completion:(void (^)(void))completionHandler {
     if (async) {
         dispatch_async(_gcdQueue, ^{
             [self.dbQueue inDatabase:block];
             [self.dbQueue close];
             
-            if (completion) {
-                completion();
+            if (completionHandler) {
+                completionHandler();
             }
         });
     } else {
         [_dbQueue inDatabase:block];
         [_dbQueue close];
         
-        if (completion) {
-            completion();
+        if (completionHandler) {
+            completionHandler();
         }
     }
 }
@@ -78,22 +78,22 @@
     [self inTransaction:block isAsync:NO completion:nil];
 }
 
-- (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block  isAsync:(BOOL)async completion:(void(^)(void))completion {
+- (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block  isAsync:(BOOL)async completion:(void (^)(void))completionHandler {
     if (async) {
         dispatch_async(_gcdQueue, ^{
             [self.dbQueue inTransaction:block];
             [self.dbQueue close];
             
-            if (completion) {
-                completion();
+            if (completionHandler) {
+                completionHandler();
             }
         });
     } else {
         [_dbQueue inTransaction:block];
         [_dbQueue close];
         
-        if (completion) {
-            completion();
+        if (completionHandler) {
+            completionHandler();
         }
     }
 }
@@ -117,7 +117,7 @@
     return success;
 }
 
-- (void)saveDataWithList:(NSArray <MKDBModel *>*)list table:(NSString *)table isAsync:(BOOL)isAsync callBack:(void(^)(BOOL))callBack {
+- (void)saveDataWithList:(NSArray <MKDBModel *>*)list table:(NSString *)table isAsync:(BOOL)isAsync completion:(void (^)(BOOL))completionHandler {
     __block BOOL success;
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
         success = NO;
@@ -133,8 +133,8 @@
             *rollback = YES;
         }
     } isAsync:isAsync completion:^{
-        if (callBack) {
-            callBack(success);
+        if (completionHandler) {
+            completionHandler(success);
         }
     }];
 }
@@ -147,13 +147,13 @@
     return success;
 }
 
-- (void)saveDataWithData:(MKDBModel *)data table:(NSString *)table isAsync:(BOOL)isAsync callBack:(void(^)(BOOL))callBack {
+- (void)saveDataWithData:(MKDBModel *)data table:(NSString *)table isAsync:(BOOL)isAsync completion:(void (^)(BOOL))completionHandler {
     __block BOOL success;
     [self inDatabase:^(FMDatabase *db) {
         success = [db insertWithTableName:table dataBaseModel:data];
     } isAsync:isAsync completion:^{
-        if (callBack) {
-            callBack(success);
+        if (completionHandler) {
+            completionHandler(success);
         }
     }];
 }
@@ -166,13 +166,13 @@
     return success;
 }
 
-- (void)deleteWithQuery:(NSString *)query isAsync:(BOOL)isAsync callBack:(void(^)(BOOL))callBack {
+- (void)deleteWithQuery:(NSString *)query isAsync:(BOOL)isAsync completion:(void (^)(BOOL))completionHandler {
     __block BOOL success;
     [self inDatabase:^(FMDatabase *db) {
         success = [db deleteWithQuery:query];
     } isAsync:isAsync completion:^{
-        if (callBack) {
-            callBack(success);
+        if (completionHandler) {
+            completionHandler(success);
         }
     }];
 }
@@ -185,13 +185,13 @@
     return dataArr;
 }
 
-- (void)selectWithQuery:(NSString *)query modelClass:(NSString *)modelClass isAsync:(BOOL)isAsync callBack:(void(^)(NSArray *))callBack {
+- (void)selectWithQuery:(NSString *)query modelClass:(NSString *)modelClass isAsync:(BOOL)isAsync completion:(void (^)(NSArray *))completionHandler {
     __block NSArray* dataArr;
     [self inDatabase:^(FMDatabase *db) {
         dataArr = [db selectWithQuery:query dataBaseModel:modelClass];
     } isAsync:isAsync completion:^{
-        if (callBack) {
-            callBack(dataArr);
+        if (completionHandler) {
+            completionHandler(dataArr);
         }
     }];
 }
