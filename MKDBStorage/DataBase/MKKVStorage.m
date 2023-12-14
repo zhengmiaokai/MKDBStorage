@@ -144,7 +144,7 @@ dispatch_semaphore_signal(self.lock);
             NSString* query = [NSString stringWithFormat:@"delete from %@ where key = '%@'", (tableName ? tableName : self.tableName), key];
             [db deleteWithQuery:query];
         }
-    }];
+    } isAsync:YES completion:nil];
 }
 
 @end
