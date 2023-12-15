@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MKDBhandle.h"
+#import "MKDBHandle.h"
 
 @protocol MKDBStorage
 

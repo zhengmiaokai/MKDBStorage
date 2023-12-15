@@ -8,34 +8,24 @@
 
 #import "MKArchivesModel.h"
 
-@interface MKPropertyA : MKArchivesModel
+@interface MKPropertyModel : MKArchivesModel
 
-@property (strong, nonatomic) NSString* a;
-@property (strong, nonatomic) NSString* b;
+@property (strong, nonatomic) NSString* content;
 
 @end
 
 @interface MKArchivesSubModel : MKArchivesModel
 
-@property (strong, nonatomic) NSString* nihao;
-@property (strong, nonatomic) NSString* dajiahao;
-@property (assign, nonatomic) int intNumber;
-@property (assign, nonatomic) float floatNumber;
+@property (strong, nonatomic) NSString* title;
+@property (assign, nonatomic) int intValue;
+@property (assign, nonatomic) float floatValue;
 
 @end
 
-@interface MKArchivesSubModelA: MKArchivesSubModel
+@interface MKArchivesDoubleModel : MKArchivesSubModel
 
-@property (strong, nonatomic) NSString* nihaoA;
-@property (strong, nonatomic) NSString* dajiahaoA;
-
-@end
-
-@interface MKArchivesDoubleModel : MKArchivesSubModelA
-
-@property (strong, nonatomic) NSString* wohao;
-@property (strong, nonatomic) NSString* tahao;
-@property (strong, nonatomic) MKPropertyA* propertyA;
+@property (strong, nonatomic) NSString* detail;
+@property (strong, nonatomic) MKPropertyModel* property;
 
 - (BOOL)saveData;
 

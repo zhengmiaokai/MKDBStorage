@@ -1,15 +1,15 @@
 //
-//  MKDBhandle.m
+//  MKDBHandle.m
 //  Basic
 //
 //  Created by zhengmiaokai on 16/4/21.
 //  Copyright © 2016年 zhengmiaokai. All rights reserved.
 //
 
-#import "MKDBhandle.h"
+#import "MKDBHandle.h"
 #import "NSObject+Additions.h"
 
-@implementation FMDatabase (Addition)
+@implementation FMDatabase (Additions)
 
 - (BOOL)insertWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel {
     @autoreleasepool {
@@ -51,11 +51,11 @@
 }
 
 - (NSArray *)selectWithQuery:(NSString*)query dataBaseModel:(NSString *)className {
-    FMResultSet* result =  [self executeQuery:query /*@"select count(*) as count  from countryCodeTable"*/ ];
+    FMResultSet* result =  [self executeQuery:query]; /*@"select count(*) as count  from countryCodeTable"*/
     NSMutableArray* datas = [NSMutableArray new];
     @autoreleasepool {
         while ([result next]) {
-           MKDBModel* dataBaseModel = [[NSClassFromString(className) alloc] initWithDBRes:result];
+            MKDBModel* dataBaseModel = [[NSClassFromString(className) alloc] initWithDBRes:result];
             [datas addObject:dataBaseModel];
         }
         [result close];
@@ -65,7 +65,7 @@
 
 - (BOOL)selectWithQuery:(NSString*)query resultBlock:(void(^)(FMResultSet *result))resultBlock {
     BOOL success = NO;
-    FMResultSet* result =  [self executeQuery:query /*@"select count(*) as count  from countryCodeTable"*/ ];
+    FMResultSet* result =  [self executeQuery:query]; /* @"select count(*) as count  from countryCodeTable" */
     while ([result next]) {
         success = YES;
         if (resultBlock != nil) {
@@ -78,12 +78,13 @@
 }
 
 - (BOOL)deleteWithQuery:(NSString*)query {
-    BOOL success = [self executeUpdate:query];//delete from tableName where key = value
+    BOOL success = [self executeUpdate:query]; /* delete from tableName where key = value */
     return success;
 }
 
 - (BOOL)creatWithTableName :(NSString *)tableName dataBaseModel:(Class)dataBaseClass {
-    NSString* query = [NSString stringWithFormat:@"create table if not exists %@(%@)", tableName, [(MKDBModel*)[dataBaseClass alloc] typeStringToCreateTable]];
+    MKDBModel *dbModel = [[dataBaseClass alloc] init];
+    NSString* query = [NSString stringWithFormat:@"create table if not exists %@(%@)", tableName, [dbModel typeStringToCreateTable]];
     BOOL success = [self executeUpdate:query];
     return success;
 }

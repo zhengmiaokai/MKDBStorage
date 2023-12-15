@@ -10,7 +10,6 @@
 		0332B6FC2A615462004DC7F8 /* NSObject+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B6FB2A615462004DC7F8 /* NSObject+Additions.m */; };
 		0332B7022A6156D1004DC7F8 /* NSArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B7002A6156D1004DC7F8 /* NSArray+Additions.m */; };
 		0332B7052A615768004DC7F8 /* NSDictionary+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B7042A615768004DC7F8 /* NSDictionary+Additions.m */; };
-		0332B7082A615807004DC7F8 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B7062A615807004DC7F8 /* NSString+Additions.m */; };
 		0332B70B2A6158B4004DC7F8 /* NSFileManager+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B70A2A6158B4004DC7F8 /* NSFileManager+Additions.m */; };
 		0332B7112A6159D2004DC7F8 /* MKArchivesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B70E2A6159D1004DC7F8 /* MKArchivesModel.m */; };
 		0332B7122A6159D2004DC7F8 /* MKBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332B70F2A6159D2004DC7F8 /* MKBaseModel.m */; };
@@ -26,7 +25,7 @@
 		D5955B7E262E80A3008BD47A /* MKDBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B76262E80A2008BD47A /* MKDBModel.m */; };
 		D5955B7F262E80A3008BD47A /* MKDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B77262E80A2008BD47A /* MKDBStorage.m */; };
 		D5955B80262E80A3008BD47A /* MKKVStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B78262E80A2008BD47A /* MKKVStorage.m */; };
-		D5955B81262E80A3008BD47A /* MKDBhandle.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B79262E80A2008BD47A /* MKDBhandle.m */; };
+		D5955B81262E80A3008BD47A /* MKDBHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B79262E80A2008BD47A /* MKDBHandle.m */; };
 		D5955B8E262E84D9008BD47A /* MKTestDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B8C262E84D9008BD47A /* MKTestDBStorage.m */; };
 		D5955B92262E8510008BD47A /* MKTestDBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955B90262E8510008BD47A /* MKTestDBModel.m */; };
 		D5955BDB262EB90A008BD47A /* MKArchivesDoubleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D5955BD9262EB90A008BD47A /* MKArchivesDoubleModel.m */; };
@@ -39,8 +38,6 @@
 		0332B7012A6156D1004DC7F8 /* NSArray+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Additions.h"; sourceTree = "<group>"; };
 		0332B7032A615768004DC7F8 /* NSDictionary+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Additions.h"; sourceTree = "<group>"; };
 		0332B7042A615768004DC7F8 /* NSDictionary+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Additions.m"; sourceTree = "<group>"; };
-		0332B7062A615807004DC7F8 /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
-		0332B7072A615807004DC7F8 /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
 		0332B7092A6158B4004DC7F8 /* NSFileManager+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Additions.h"; sourceTree = "<group>"; };
 		0332B70A2A6158B4004DC7F8 /* NSFileManager+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Additions.m"; sourceTree = "<group>"; };
 		0332B70D2A6159D1004DC7F8 /* MKBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKBaseModel.h; sourceTree = "<group>"; };
@@ -62,13 +59,13 @@
 		D5955B62262E7CC8008BD47A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D5955B64262E7CC8008BD47A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5955B65262E7CC8008BD47A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D5955B73262E80A2008BD47A /* MKDBhandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDBhandle.h; sourceTree = "<group>"; };
+		D5955B73262E80A2008BD47A /* MKDBHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDBHandle.h; sourceTree = "<group>"; };
 		D5955B74262E80A2008BD47A /* MKKVStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKKVStorage.h; sourceTree = "<group>"; };
 		D5955B75262E80A2008BD47A /* MKDBQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBQueue.m; sourceTree = "<group>"; };
 		D5955B76262E80A2008BD47A /* MKDBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBModel.m; sourceTree = "<group>"; };
 		D5955B77262E80A2008BD47A /* MKDBStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBStorage.m; sourceTree = "<group>"; };
 		D5955B78262E80A2008BD47A /* MKKVStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKKVStorage.m; sourceTree = "<group>"; };
-		D5955B79262E80A2008BD47A /* MKDBhandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBhandle.m; sourceTree = "<group>"; };
+		D5955B79262E80A2008BD47A /* MKDBHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKDBHandle.m; sourceTree = "<group>"; };
 		D5955B7A262E80A2008BD47A /* MKDBQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDBQueue.h; sourceTree = "<group>"; };
 		D5955B7B262E80A2008BD47A /* MKDBStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDBStorage.h; sourceTree = "<group>"; };
 		D5955B7C262E80A2008BD47A /* MKDBModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKDBModel.h; sourceTree = "<group>"; };
@@ -101,8 +98,6 @@
 				0332B7002A6156D1004DC7F8 /* NSArray+Additions.m */,
 				0332B7032A615768004DC7F8 /* NSDictionary+Additions.h */,
 				0332B7042A615768004DC7F8 /* NSDictionary+Additions.m */,
-				0332B7072A615807004DC7F8 /* NSString+Additions.h */,
-				0332B7062A615807004DC7F8 /* NSString+Additions.m */,
 				0332B7092A6158B4004DC7F8 /* NSFileManager+Additions.h */,
 				0332B70A2A6158B4004DC7F8 /* NSFileManager+Additions.m */,
 			);
@@ -176,8 +171,8 @@
 		D5955B72262E80A2008BD47A /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
-				D5955B73262E80A2008BD47A /* MKDBhandle.h */,
-				D5955B79262E80A2008BD47A /* MKDBhandle.m */,
+				D5955B73262E80A2008BD47A /* MKDBHandle.h */,
+				D5955B79262E80A2008BD47A /* MKDBHandle.m */,
 				D5955B7C262E80A2008BD47A /* MKDBModel.h */,
 				D5955B76262E80A2008BD47A /* MKDBModel.m */,
 				D5955B7A262E80A2008BD47A /* MKDBQueue.h */,
@@ -304,14 +299,13 @@
 				0332B7122A6159D2004DC7F8 /* MKBaseModel.m in Sources */,
 				D5955B55262E7CC6008BD47A /* AppDelegate.m in Sources */,
 				D5955B7E262E80A3008BD47A /* MKDBModel.m in Sources */,
-				D5955B81262E80A3008BD47A /* MKDBhandle.m in Sources */,
+				D5955B81262E80A3008BD47A /* MKDBHandle.m in Sources */,
 				0332B7112A6159D2004DC7F8 /* MKArchivesModel.m in Sources */,
 				D5955B7F262E80A3008BD47A /* MKDBStorage.m in Sources */,
 				D5955B66262E7CC8008BD47A /* main.m in Sources */,
 				D5955B92262E8510008BD47A /* MKTestDBModel.m in Sources */,
 				D5955B80262E80A3008BD47A /* MKKVStorage.m in Sources */,
 				0332B70B2A6158B4004DC7F8 /* NSFileManager+Additions.m in Sources */,
-				0332B7082A615807004DC7F8 /* NSString+Additions.m in Sources */,
 				D5955B58262E7CC6008BD47A /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

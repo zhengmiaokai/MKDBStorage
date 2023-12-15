@@ -8,7 +8,6 @@
 
 #import "MKDBQueue.h"
 #import "NSDictionary+Additions.h"
-#import "NSString+Additions.h"
 #import "NSFileManager+Additions.h"
 
 #define LOCK(...) dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER); \
@@ -53,16 +52,16 @@ dispatch_semaphore_signal(_lock);
 
 - (void)addDBQueue:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
     MKDBQueueItem* item = [[MKDBQueueItem alloc] initWithDbName:dbName gcdQueue:gcdQueue];
-    LOCK([self.queueItems dbSetObject:item forKey:[dbName MD5]]);
+    LOCK([self.queueItems dbSetObject:item forKey:dbName]);
 }
 
 - (FMDatabaseQueue *)getDbQueueWithDbName:(NSString *)dbName {
-    LOCK(MKDBQueueItem* item = [self.queueItems objectForKey:[dbName MD5]]);
+    LOCK(MKDBQueueItem* item = [self.queueItems objectForKey:dbName]);
     return item.dbQueue;
 }
 
 - (dispatch_queue_t)getGcdQueueWithDbName:(NSString *)dbName {
-    LOCK(MKDBQueueItem* item = [self.queueItems objectForKey:[dbName MD5]]);
+    LOCK(MKDBQueueItem* item = [self.queueItems objectForKey:dbName]);
     if (item && item.gcdQueue) {
         return item.gcdQueue;
     }
@@ -70,7 +69,7 @@ dispatch_semaphore_signal(_lock);
 }
 
 - (void)removeDBQueue:(NSString *)dbName {
-    LOCK([self.queueItems dbRemoveOjectForKey:[dbName MD5]]);
+    LOCK([self.queueItems dbRemoveOjectForKey:dbName]);
 }
 
 @end

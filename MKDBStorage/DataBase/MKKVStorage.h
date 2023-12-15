@@ -30,8 +30,6 @@ typedef void(^MKDBCompletionHandler)(id response);
 
 + (instancetype)sharedInstance;
 
-- (instancetype)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
-
 - (void)creatTableWithName:(NSString *)tableName;
 
 @end

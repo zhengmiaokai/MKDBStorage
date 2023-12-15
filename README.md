@@ -28,19 +28,14 @@ MKTestDBStorage* testDB = [[MKTestDBStorage alloc] initWithDbName:@"test.db" gcd
 ```objective-c
 /* 基类实现了 NSCoding/NSCoping 协议 */
 MKArchivesDoubleModel * archivesData = [[MKArchivesDoubleModel alloc] init];
-archivesData.nihao = @"sdf";
-archivesData.dajiahao = @"sdfsdf";
-archivesData.nihaoA = @"sdf";
-archivesData.dajiahaoA = @"sdfsdf";
-archivesData.wohao = @"sdf";
-archivesData.tahao = @"sdfsdf";
-archivesData.intNumber = 1;
-archivesData.floatNumber = 1.1;
+archivesData.title = @"title";
+archivesData.detail = @"detail";
+archivesData.intValue = 27;
+archivesData.floatValue = 1.01;
     
-MKPropertyA* propertyA = [MKPropertyA new];
-propertyA.a = @"s";
-propertyA.b = @"d";
-archivesData.propertyA = propertyA;
+MKPropertyModel* property = [[MKPropertyModel alloc] init];
+property.content = @"content";
+archivesData.property = property;
     
 [archivesData saveData];
 [archivesData selectData];

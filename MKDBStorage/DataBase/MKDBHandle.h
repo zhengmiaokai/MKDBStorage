@@ -1,5 +1,5 @@
 //
-//  MKDBhandle.h
+//  MKDBHandle.h
 //  Basic
 //
 //  Created by zhengmiaokai on 16/4/21.
@@ -14,7 +14,7 @@
 #define kFieldTypeInt      @"integer"
 #define kFieldTypeData     @"blob"
 
-@interface FMDatabase (Addition)
+@interface FMDatabase (Additions)
 
 /** 插入数据
  *   @param tableName 表名

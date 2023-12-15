@@ -8,15 +8,11 @@
 
 #import "MKArchivesDoubleModel.h"
 
-@implementation MKPropertyA
+@implementation MKPropertyModel
 
 @end
 
 @implementation MKArchivesSubModel
-
-@end
-
-@implementation MKArchivesSubModelA
 
 @end
 
