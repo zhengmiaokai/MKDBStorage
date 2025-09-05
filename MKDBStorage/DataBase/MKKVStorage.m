@@ -7,8 +7,9 @@
 //
 
 #import "MKKVStorage.h"
+#import "NSArray+Additions.h"
 
-#define kMKKVDbName  @"KVStorage.db"
+#define kKVDBName  @"KVStorage.db"
 
 #define LOCK(...) dispatch_semaphore_wait(self.lock, DISPATCH_TIME_FOREVER); \
 __VA_ARGS__; \
@@ -41,14 +42,14 @@ dispatch_semaphore_signal(self.lock);
     static MKKVStorage *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^ {
-        dispatch_queue_t gcd_queue = dispatch_queue_create("com.KVStorage.queue", NULL);
-        sharedInstance = [[self alloc] initWithDbName:kMKKVDbName gcdQueue:gcd_queue];
+        dispatch_queue_t serailQueue = dispatch_queue_create("com.KVStorage.serailQueue", NULL);
+        sharedInstance = [[self alloc] initWithDBName:kKVDBName serailQueue:serailQueue];
     });
     return sharedInstance;
 }
 
-- (instancetype)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
-    self = [super initWithDbName:dbName gcdQueue:gcdQueue];
+- (instancetype)initWithDBName:(NSString *)DBName serailQueue:(dispatch_queue_t)serailQueue {
+    self = [super initWithDBName:DBName serailQueue:serailQueue];
     if (self) {
         self.storageItems = [[NSMutableDictionary alloc] init];
         self.lock = dispatch_semaphore_create(1);
@@ -57,16 +58,7 @@ dispatch_semaphore_signal(self.lock);
 }
 
 - (void)onLoad {
-    self.tableName = @"KVStorage_db_table";
-    [self creatTableWithName:self.tableName];
-}
-
-- (void)creatTableWithName:(NSString *)tableName {
-    [self inDatabase:^(FMDatabase *db) {
-        if ([db tableExists:tableName] == NO) {
-            [db creatWithTableName:tableName dataBaseModel:[MKKeyValueDBItem class]];
-        }
-    } isAsync:YES completion:nil];
+    [self createWithTableName:MKKeyValueDBItem.tableName dataBaseModel:[MKKeyValueDBItem class] completion:nil];
 }
 
 - (void)saveDataWithValue:(id)value forKey:(NSString *)key {
@@ -78,15 +70,15 @@ dispatch_semaphore_signal(self.lock);
     LOCK([_storageItems setObject:storageItem forKey:key]);
     
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        NSString *query = [NSString stringWithFormat:@"select * from %@ where key = '%@'", (tableName ? tableName : self.tableName), key];
-        if ([db selectWithQuery:query resultBlock:^(FMResultSet * _Nonnull result) {}]) {
-            // 更新
-            [db updateWithTableName:(tableName ? tableName : self.tableName) dataBaseModel:storageItem where:@{@"key": key}];
-        } else {
+        int count = [db selectCountWithTableName:MKKeyValueDBItem.tableName where:@{@"key": key}];
+        if (count == 0) {
             // 新增
-            [db insertWithTableName:(tableName ? tableName : self.tableName) dataBaseModel:storageItem];
+            [db insertWithTableName:MKKeyValueDBItem.tableName dataBaseModel:storageItem];
+        } else {
+            // 更新
+            [db updateWithTableName:MKKeyValueDBItem.tableName dataBaseModel:storageItem where:@{@"key": key}];
         }
-    } isAsync:YES completion:nil];
+    } completion:nil];
 }
 
 - (void)getValueForKey:(NSString *)key completion:(MKDBCompletionHandler)completionHandler {
@@ -102,12 +94,8 @@ dispatch_semaphore_signal(self.lock);
         }
     } else {
         __block MKKeyValueDBItem *storageItem = nil;
-        [self inDatabase:^(FMDatabase *db) {
-            NSString* query = [NSString stringWithFormat:@"select * from %@ where key = '%@'", (tableName ? tableName : self.tableName), key];
-            [db selectWithQuery:query resultBlock:^(FMResultSet * _Nonnull result) {
-                storageItem = [MKKeyValueDBItem itemWithResult:result];
-            }];
-        } isAsync:YES completion:^{
+        [self selectWithTableName:MKKeyValueDBItem.tableName dataBaseModel:MKKeyValueDBItem.class where:@{@"key": key} completion:^(NSArray *datas) {
+            storageItem = [datas dbObjectAtIndex:0];
             if (storageItem) {
                 LOCK([self.storageItems setObject:storageItem forKey:key]);
             }
@@ -126,10 +114,7 @@ dispatch_semaphore_signal(self.lock);
 - (void)removeValueForKey:(NSString *)key tableName:(NSString *)tableName {
     LOCK([_storageItems removeObjectForKey:key]);
     
-    [self inDatabase:^(FMDatabase *db) {
-        NSString *query = [NSString stringWithFormat:@"delete from %@ where key = %@", (tableName ? tableName : self.tableName), key];
-        [db deleteWithQuery:query];
-    } isAsync:YES completion:nil];
+    [self deleteWithTableName:MKKeyValueDBItem.tableName where:@{@"key": key} completion:nil];
 }
 
 - (void)removeValuesForKeys:(NSArray *)keys {
@@ -141,10 +126,9 @@ dispatch_semaphore_signal(self.lock);
     
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (NSString* key in keys) {
-            NSString* query = [NSString stringWithFormat:@"delete from %@ where key = '%@'", (tableName ? tableName : self.tableName), key];
-            [db deleteWithQuery:query];
+            [db deleteWithTableName:MKKeyValueDBItem.tableName where:@{@"key": key}];
         }
-    } isAsync:YES completion:nil];
+    } completion:nil];
 }
 
 @end
@@ -163,6 +147,15 @@ dispatch_semaphore_signal(self.lock);
     item.key = [result stringForColumn:@"key"];
     item.value = [result stringForColumn:@"value"];
     return item;
+}
+
+#pragma mark - MKDBModel -
++ (NSString *)tableName {
+    return @"kv_database";
+}
+
+- (BOOL)needPrimaryKey {
+    return NO;
 }
 
 @end

@@ -11,19 +11,15 @@ for (int i=0; i<500; i++) {
 }
     
 [[MKKVStorage sharedInstance] getValueForKey:[NSString stringWithFormat:@"%dsfsdfsdf", 0] completion:^(id  _Nonnull response) {
-    
+    NSLog(@"key-value: %@", response);
 }];
 ```
 
 ```objective-c
 /* MKTestDBModel 继承于 MKDBModel；MKTestDBStorage 继承于 MKDBStorage */
-MKTestDBStorage* testDB = [[MKTestDBStorage alloc] initWithDbName:@"test.db" gcdQueue:nil];
-[testDB saveData:^(BOOL success) {
-        
-}];
-[testDB selectData:^(NSArray *datas) {
-        
-}];
+MKTestDBStorage* tesStorage = [[MKTestDBStorage alloc] init];
+[tesStorage saveData:^(BOOL success) { }];
+[tesStorage selectData:^(NSArray *datas) { }];
 ```
 ```objective-c
 /* 基类实现了 NSCoding/NSCoping 协议 */

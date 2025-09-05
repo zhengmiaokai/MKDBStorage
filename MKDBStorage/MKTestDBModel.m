@@ -10,8 +10,13 @@
 
 @implementation MKTestDBModel
 
-- (BOOL)isHavePrimaryKey {
-    return YES;
+#pragma mark - MKDBModel -
++ (NSString *)tableName {
+    return @"test_database";
+}
+
+- (BOOL)needPrimaryKey {
+    return NO;
 }
 
 @end

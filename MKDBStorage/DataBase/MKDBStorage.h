@@ -11,46 +11,67 @@
 
 @protocol MKDBStorage
 
-@required
 - (void)onLoad;
 
 @end
 
 @interface MKDBStorage : NSObject <MKDBStorage>
 
-@property (nonatomic, strong, readonly) FMDatabaseQueue* dbQueue;
-
-@property (nonatomic, strong, readonly) dispatch_queue_t gcdQueue;
-
-@property (nonatomic, strong) NSString* tableName;
-
 /// 实例初始化
-- (instancetype)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
+- (instancetype)initWithDBName:(NSString *)DBName serailQueue:(dispatch_queue_t)serailQueue;
 
-/// 非事务操作
+#pragma mark - 非事务操作 -
 - (void)inDatabase:(void (^)(FMDatabase *db))block;
-- (void)inDatabase:(void (^)(FMDatabase *db))block isAsync:(BOOL)async completion:(void(^)(void))completionHandler;
+- (void)inDatabase:(void (^)(FMDatabase *db))block completion:(void(^)(void))completionHandler;
 
-/// 事务操作
+#pragma mark - 事务操作 -
 - (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block;
-- (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block isAsync:(BOOL)async completion:(void(^)(void))completionHandler;
+- (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block completion:(void(^)(void))completionHandler;
 
-#pragma mark - 同步 -
-- (BOOL)saveDataWithList:(NSArray <MKDBModel*>*)list table:(NSString *)table;
+#pragma mark - 增删改查（同步） -
+- (BOOL)createWithTableName:(NSString *)tableName dataBaseModel:(Class)dataBaseClass;
 
-- (BOOL)saveDataWithData:(MKDBModel *)data table:(NSString *)table;
+- (BOOL)createWithTableNames:(NSArray *)tableNames dataBaseModel:(NSArray *)dataBaseClassses;
 
-- (BOOL)deleteWithQuery:(NSString *)query;
+- (BOOL)insertWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel;
 
-- (NSArray *)selectWithQuery:(NSString *)query modelClass:(NSString *)modelClass;
+- (BOOL)insertWithTableName:(NSString *)tableName dataBaseModels:(NSArray <MKDBModel *>*)dataBaseModels;
 
-#pragma mark - 异步 -
-- (void)saveDataWithList:(NSArray <MKDBModel *>*)list table:(NSString *)table isAsync:(BOOL)isAsync completion:(void(^)(BOOL))completionHandler;
+- (BOOL)updateWithTableName:(NSString *)tableName tableName:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues;
 
-- (void)saveDataWithData:(MKDBModel *)data table:(NSString *)table isAsync:(BOOL)isAsync completion:(void(^)(BOOL))completionHandler;
+- (NSArray *)selectWithTableName:(NSString *)tableName dataBaseModel:(Class)dataBaseClass;
 
-- (void)deleteWithQuery:(NSString *)query isAsync:(BOOL)isAsync completion:(void(^)(BOOL))completionHandler;
+- (NSArray *)selectWithTableName:(NSString *)tableName dataBaseModel:(Class)dataBaseClass where:(NSDictionary *)wKeyValues;
 
-- (void)selectWithQuery:(NSString *)query modelClass:(NSString *)modelClass isAsync:(BOOL)isAsync completion:(void(^)(NSArray *))completionHandler;
+- (int)selectCountWithTableName:(NSString *)tableName;
+
+- (int)selectCountWithTableName:(NSString *)tableName where:(NSDictionary *)wKeyValues;
+
+- (BOOL)deleteWithTableName:(NSString *)tableName;
+
+- (BOOL)deleteWithTableName:(NSString *)tableName where:(NSDictionary *)wKeyValues;
+
+#pragma mark - 增删改查（异步） -
+- (void)createWithTableName:(NSString *)tableName dataBaseModel:(Class)dataBaseClass completion:(void (^)(BOOL))completionHandler;
+
+- (void)createWithTableNames:(NSArray *)tableNames dataBaseModel:(NSArray *)dataBaseClassses completion:(void (^)(BOOL))completionHandler;
+
+- (void)insertWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel completion:(void (^)(BOOL))completionHandler;
+
+- (void)insertWithTableName:(NSString *)tableName dataBaseModels:(NSArray <MKDBModel *>*)dataBaseModels completion:(void (^)(BOOL))completionHandler;
+
+- (void)updateWithTableName:(NSString *)tableName tableName:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues completion:(void (^)(BOOL))completionHandler;
+
+- (void)selectWithTableName:(NSString *)tableName dataBaseModel:(Class)dataBaseClass completion:(void (^)(NSArray *))completionHandler;
+
+- (void)selectWithTableName:(NSString *)tableName dataBaseModel:(Class)dataBaseClass where:(NSDictionary *)wKeyValues completion:(void (^)(NSArray *))completionHandler;
+
+- (void)selectCountWithTableName:(NSString *)tableName completion:(void (^)(int))completionHandler;
+
+- (void)selectCountWithTableName:(NSString *)tableName where:(NSDictionary *)wKeyValues completion:(void (^)(int))completionHandler;
+
+- (void)deleteWithTableName:(NSString *)tableName completion:(void (^)(BOOL))completionHandler;
+
+- (void)deleteWithTableName:(NSString *)tableName where:(NSDictionary *)wKeyValues completion:(void (^)(BOOL))completionHandler;
 
 @end

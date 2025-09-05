@@ -9,13 +9,24 @@
 #import "MKBaseModel.h"
 @class FMResultSet;
 
-@interface MKDBModel : MKBaseModel
+#define kFieldTypeString   @"text"
+#define kFieldTypeInt      @"integer"
+#define kFieldTypeFloat    @"float"
+#define kFieldTypeData     @"blob"
+
+@protocol MKDBModel
+
++ (NSString *)tableName;
+
+- (NSString *)typeStrings;
+
+- (BOOL)needPrimaryKey;
+
+@end
+
+@interface MKDBModel : NSObject <MKDBModel>
 
 - (instancetype)initWithDBRes:(FMResultSet *)res;
-
-- (NSString *)typeStringToCreateTable;
-
-- (BOOL)isHavePrimaryKey;
 
 @end
 

@@ -43,34 +43,38 @@
     }
 }
 
-- (NSString *)typeStringToCreateTable {
++ (NSString *)tableName {
+    return NSStringFromClass([self class]);
+}
+
+- (BOOL)needPrimaryKey {
+    return YES;
+}
+
+- (NSString *)typeStrings {
     @autoreleasepool {
         NSArray* propertyKeys = [self generatePropertyKeys];
         NSArray* propertyTypes = [self generatePropertyTypes];
         
         NSMutableArray* typeStrings = [NSMutableArray arrayWithCapacity:propertyTypes.count];
         
-        if ([self isHavePrimaryKey]) {
+        if ([self needPrimaryKey]) {
             [typeStrings addObject: @"id integer primary key autoincrement"];
         }
         
         for (int i=0; i<propertyTypes.count; i++) {
             if ([propertyTypes[i] isEqualToString:@"NSString"]) {
-                [typeStrings addObject:[NSString stringWithFormat:@"%@ text", propertyKeys[i]]];
+                [typeStrings addObject:[NSString stringWithFormat:@"%@ %@", propertyKeys[i], kFieldTypeString]];
             } else if ([propertyTypes[i] isEqualToString:@"i"] || [propertyTypes[i] isEqualToString:@"q"]) {
-                [typeStrings addObject:[NSString stringWithFormat:@"%@ integer", propertyKeys[i]]];
+                [typeStrings addObject:[NSString stringWithFormat:@"%@ %@", propertyKeys[i], kFieldTypeInt]];
             } else if ([propertyTypes[i] isEqualToString:@"f"] || [propertyTypes[i] isEqualToString:@"d"]) {
-                [typeStrings addObject:[NSString stringWithFormat:@"%@ float", propertyKeys[i]]];
+                [typeStrings addObject:[NSString stringWithFormat:@"%@ %@", propertyKeys[i], kFieldTypeFloat]];
             } else if ([propertyTypes[i] isEqualToString:@"NSData"]) {
-                [typeStrings addObject:[NSString stringWithFormat:@"%@ blob", propertyKeys[i]]];
+                [typeStrings addObject:[NSString stringWithFormat:@"%@ %@", propertyKeys[i], kFieldTypeData]];
             }
         }
         return [typeStrings componentsJoinedByString:@","];
     }
-}
-
-- (BOOL)isHavePrimaryKey {
-    return YES;
 }
 
 @end

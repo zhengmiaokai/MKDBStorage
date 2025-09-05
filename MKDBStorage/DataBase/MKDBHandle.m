@@ -11,80 +11,9 @@
 
 @implementation FMDatabase (Additions)
 
-- (BOOL)insertWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel {
-    @autoreleasepool {
-        NSDictionary* dataDic = [dataBaseModel objectRecordPropertyDictionary];
-        NSArray* values = [dataDic allValues];
-        NSMutableArray* newValues = [NSMutableArray arrayWithCapacity:values.count];
-        for(id value in values) {
-            [newValues addObject:[NSString stringWithFormat:@"'%@'",value]];//数据类型可以不用加''
-        }
-        NSString *queryString = [NSString stringWithFormat:@"INSERT INTO %@ (%@) VALUES (%@)", tableName,[dataDic.allKeys componentsJoinedByString:@","],[newValues componentsJoinedByString:@","]];
-        BOOL success = [self executeUpdate:queryString];
-        return success;
-    }
-}
-
-- (BOOL)updateWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues {
-    @autoreleasepool {
-        NSDictionary* keyValues = [dataBaseModel objectRecordPropertyDictionary];
-        NSString* setStr = @"";
-        for (NSString* key in keyValues.allKeys) {
-            if (setStr.length == 0) {
-                setStr = [setStr stringByAppendingFormat:@" %@ = '%@'", key, keyValues[key]];
-            } else {
-                setStr = [setStr stringByAppendingFormat:@", %@ = '%@'", key, keyValues[key]];
-            }
-        }
-        NSString* whereStr = @"";
-        for (NSString* wkey in wKeyValues.allKeys) {
-            if (whereStr.length == 0) {
-                whereStr = [whereStr stringByAppendingFormat:@" %@ = '%@'", wkey, wKeyValues[wkey]];
-            } else {
-                whereStr = [whereStr stringByAppendingFormat:@", %@ = '%@'", wkey, wKeyValues[wkey]];
-            }
-        }
-        NSString *queryString = [NSString stringWithFormat:@"UPDATE %@ SET%@ WHERE%@", tableName, setStr, whereStr];
-        BOOL success = [self executeUpdate:queryString];
-        return success;
-    }
-}
-
-- (NSArray *)selectWithQuery:(NSString*)query dataBaseModel:(NSString *)className {
-    FMResultSet* result =  [self executeQuery:query]; /*@"select count(*) as count  from countryCodeTable"*/
-    NSMutableArray* datas = [NSMutableArray new];
-    @autoreleasepool {
-        while ([result next]) {
-            MKDBModel* dataBaseModel = [[NSClassFromString(className) alloc] initWithDBRes:result];
-            [datas addObject:dataBaseModel];
-        }
-        [result close];
-    }
-    return datas;
-}
-
-- (BOOL)selectWithQuery:(NSString*)query resultBlock:(void(^)(FMResultSet *result))resultBlock {
-    BOOL success = NO;
-    FMResultSet* result =  [self executeQuery:query]; /* @"select count(*) as count  from countryCodeTable" */
-    while ([result next]) {
-        success = YES;
-        if (resultBlock != nil) {
-            resultBlock(result);
-        }
-        break;
-    }
-    [result close];
-    return success;
-}
-
-- (BOOL)deleteWithQuery:(NSString*)query {
-    BOOL success = [self executeUpdate:query]; /* delete from tableName where key = value */
-    return success;
-}
-
-- (BOOL)creatWithTableName :(NSString *)tableName dataBaseModel:(Class)dataBaseClass {
+- (BOOL)creatWithTableName:(NSString *)tableName dataBaseModel:(Class)dataBaseClass {
     MKDBModel *dbModel = [[dataBaseClass alloc] init];
-    NSString* query = [NSString stringWithFormat:@"create table if not exists %@(%@)", tableName, [dbModel typeStringToCreateTable]];
+    NSString* query = [NSString stringWithFormat:@"create table if not exists %@(%@)", tableName, [dbModel typeStrings]];
     BOOL success = [self executeUpdate:query];
     return success;
 }
@@ -97,6 +26,136 @@
         defaultValue = @"default('')";
     }
     NSString* query = [NSString stringWithFormat:@"alter table %@ add %@ %@ %@", tableName, fieldName, fieldType, defaultValue];
+    BOOL success = [self executeUpdate:query];
+    return success;
+}
+
+- (BOOL)insertWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel {
+    @autoreleasepool {
+        NSDictionary* dataDic = [dataBaseModel objectRecordPropertyDictionary];
+        NSArray* values = [dataDic allValues];
+        NSMutableArray* newValues = [NSMutableArray arrayWithCapacity:values.count];
+        for(id value in values) {
+            [newValues addObject:[NSString stringWithFormat:@"'%@'",value]];//数据类型可以不用加''
+        }
+        NSString *queryString = [NSString stringWithFormat:@"insert into %@ (%@) values (%@)", tableName,[dataDic.allKeys componentsJoinedByString:@","],[newValues componentsJoinedByString:@","]];
+        BOOL success = [self executeUpdate:queryString];
+        return success;
+    }
+}
+
+- (BOOL)updateWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues {
+    @autoreleasepool {
+        NSDictionary* keyValues = [dataBaseModel objectRecordPropertyDictionary];
+        NSString* setQuery = @"";
+        for (NSString* key in keyValues.allKeys) {
+            if (setQuery.length == 0) {
+                setQuery = [setQuery stringByAppendingFormat:@" %@ = '%@'", key, keyValues[key]];
+            } else {
+                setQuery = [setQuery stringByAppendingFormat:@", %@ = '%@'", key, keyValues[key]];
+            }
+        }
+        NSString* whereQuery = @"";
+        for (NSString* wkey in wKeyValues.allKeys) {
+            if (whereQuery.length == 0) {
+                whereQuery = [whereQuery stringByAppendingFormat:@" %@ = '%@'", wkey, wKeyValues[wkey]];
+            } else {
+                whereQuery = [whereQuery stringByAppendingFormat:@", %@ = '%@'", wkey, wKeyValues[wkey]];
+            }
+        }
+        NSString *queryString = [NSString stringWithFormat:@"update %@ set%@ where%@", tableName, setQuery, whereQuery];
+        BOOL success = [self executeUpdate:queryString];
+        return success;
+    }
+}
+
+- (NSArray *)selectWithTableName:(NSString *)tableName dataBaseModel:(Class)dataBaseClass {
+    NSString *query = [NSString stringWithFormat:@"select * from %@", tableName];
+    FMResultSet* result =  [self executeQuery:query];
+    NSMutableArray* datas = [NSMutableArray new];
+    @autoreleasepool {
+        while ([result next]) {
+            MKDBModel* dataBaseModel = [[dataBaseClass alloc] initWithDBRes:result];
+            [datas addObject:dataBaseModel];
+        }
+        [result close];
+    }
+    return datas;
+}
+
+- (NSArray *)selectWithTableName:(NSString *)tableName dataBaseModel:(Class)dataBaseClass where:(NSDictionary *)wKeyValues {
+    NSString* whereQuery = @"";
+    for (NSString* wkey in wKeyValues.allKeys) {
+        if (whereQuery.length == 0) {
+            whereQuery = [whereQuery stringByAppendingFormat:@" %@ = '%@'", wkey, wKeyValues[wkey]];
+        } else {
+            whereQuery = [whereQuery stringByAppendingFormat:@", %@ = '%@'", wkey, wKeyValues[wkey]];
+        }
+    }
+    
+    NSString *query = [NSString stringWithFormat:@"select * from %@ where%@", tableName, whereQuery];
+    FMResultSet* result =  [self executeQuery:query];
+    NSMutableArray* datas = [NSMutableArray new];
+    @autoreleasepool {
+        while ([result next]) {
+            MKDBModel* dataBaseModel = [[dataBaseClass alloc] initWithDBRes:result];
+            [datas addObject:dataBaseModel];
+        }
+        [result close];
+    }
+    return datas;
+}
+
+- (int)selectCountWithTableName:(NSString *)tableName {
+    int count = 0;
+    NSString *query = [NSString stringWithFormat:@"select count(*) as count from %@", tableName];
+    FMResultSet* result =  [self executeQuery:query];
+    while ([result next]) {
+        count = [result intForColumn:@"count"];
+        break;
+    }
+    [result close];
+    return count;
+}
+
+- (int)selectCountWithTableName:(NSString *)tableName where:(NSDictionary *)wKeyValues {
+    NSString* whereQuery = @"";
+    for (NSString* wkey in wKeyValues.allKeys) {
+        if (whereQuery.length == 0) {
+            whereQuery = [whereQuery stringByAppendingFormat:@" %@ = '%@'", wkey, wKeyValues[wkey]];
+        } else {
+            whereQuery = [whereQuery stringByAppendingFormat:@", %@ = '%@'", wkey, wKeyValues[wkey]];
+        }
+    }
+    
+    int count = 0;
+    NSString *query = [NSString stringWithFormat:@"select count(*) as count from %@ where%@", tableName, whereQuery];
+    FMResultSet* result =  [self executeQuery:query];
+    while ([result next]) {
+        count = [result intForColumn:@"count"];
+        break;
+    }
+    [result close];
+    return count;
+}
+
+- (BOOL)deleteWithTableName:(NSString *)tableName {
+    NSString *query = [NSString stringWithFormat:@"delete from %@", tableName];
+    BOOL success = [self executeUpdate:query];
+    return success;
+}
+
+- (BOOL)deleteWithTableName:(NSString *)tableName where:(NSDictionary *)wKeyValues {
+    NSString* whereQuery = @"";
+    for (NSString* wkey in wKeyValues.allKeys) {
+        if (whereQuery.length == 0) {
+            whereQuery = [whereQuery stringByAppendingFormat:@" %@ = '%@'", wkey, wKeyValues[wkey]];
+        } else {
+            whereQuery = [whereQuery stringByAppendingFormat:@", %@ = '%@'", wkey, wKeyValues[wkey]];
+        }
+    }
+    
+    NSString *query = [NSString stringWithFormat:@"delete from %@ where%@", tableName, whereQuery];
     BOOL success = [self executeUpdate:query];
     return success;
 }

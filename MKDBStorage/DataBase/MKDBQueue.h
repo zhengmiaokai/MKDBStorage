@@ -13,27 +13,21 @@
 
 + (instancetype)shareInstance;
 
-/// 默认DBQueue
-@property (nonatomic, strong, readonly) FMDatabaseQueue *dbQueue;
+- (void)addDBName:(NSString *)DBName serailQueue:(dispatch_queue_t)serailQueue;
 
-/// 默认GCDQueue
-@property (nonatomic, strong, readonly) dispatch_queue_t gcdQueue;
+- (FMDatabaseQueue *)getDatabaseQueueWithDBName:(NSString *)DBName;
 
-- (void)addDBQueue:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
+- (dispatch_queue_t)getSerailQueueWithDBName:(NSString *)DBName;
 
-- (FMDatabaseQueue *)getDbQueueWithDbName:(NSString *)dbName;
-
-- (dispatch_queue_t)getGcdQueueWithDbName:(NSString *)dbName;
-
-- (void)removeDBQueue:(NSString *)dbName;
+- (void)removeDBName:(NSString *)DBName;
 
 @end
 
 @interface MKDBQueueItem : NSObject
 
-- (instancetype)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue;
+- (instancetype)initWithDBName:(NSString *)DBName serailQueue:(dispatch_queue_t)serailQueue;
 
-@property (nonatomic, strong) FMDatabaseQueue *dbQueue;
-@property (nonatomic, strong) dispatch_queue_t gcdQueue;
+@property (nonatomic, strong) FMDatabaseQueue *databaseQueue;
+@property (nonatomic, strong) dispatch_queue_t serailQueue;
 
 @end

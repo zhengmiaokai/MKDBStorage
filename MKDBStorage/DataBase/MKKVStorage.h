@@ -30,6 +30,4 @@ typedef void(^MKDBCompletionHandler)(id response);
 
 + (instancetype)sharedInstance;
 
-- (void)creatTableWithName:(NSString *)tableName;
-
 @end

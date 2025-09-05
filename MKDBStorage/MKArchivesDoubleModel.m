@@ -31,7 +31,7 @@
     NSString *cachesDir = [paths objectAtIndex:0];
     
     MKArchivesDoubleModel * archivesDoubleData = [NSKeyedUnarchiver unarchiveObjectWithFile:[cachesDir stringByAppendingPathComponent:@"test.plist"]];
-    NSLog(@"MKArchivesDoubleModel: ==== %@", archivesDoubleData.description);
+    NSLog(@"archivesModel-description: %@", archivesDoubleData.description);
     return archivesDoubleData;
 }
 

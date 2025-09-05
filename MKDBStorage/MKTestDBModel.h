@@ -17,7 +17,7 @@
 
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSString* title;
-@property (nonatomic, strong) NSString* context;
+@property (nonatomic, strong) NSString* content;
 @property (nonatomic, strong) NSString* desc;
 
 @end

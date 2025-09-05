@@ -14,10 +14,14 @@
 __VA_ARGS__; \
 dispatch_semaphore_signal(_lock);
 
-#define kDBFolderName  @"DBStorage"
-#define kDBFileName    @"base.db"
+#define kDBFolderName  @"sqlite_database"
+#define kDBFileName    @"DBStorage.db"
 
 @interface MKDBQueue ()
+
+@property (nonatomic, strong) FMDatabaseQueue *databaseQueue;
+
+@property (nonatomic, strong) dispatch_queue_t serailQueue;
 
 @property (nonatomic, strong) NSMutableDictionary *queueItems;
 @property (nonatomic, strong) dispatch_semaphore_t lock;
@@ -40,9 +44,9 @@ dispatch_semaphore_signal(_lock);
     if (self) {
         NSString *folderPath = [NSFileManager folderPathWithFolderName:kDBFolderName directoriesPath:DocumentPath()];
         NSString *filePath = [NSFileManager pathWithFileName:kDBFileName foldPath:folderPath];
-        _dbQueue = [[FMDatabaseQueue alloc] initWithPath:filePath];
+        self.databaseQueue = [[FMDatabaseQueue alloc] initWithPath:filePath];
         
-        _gcdQueue = dispatch_queue_create("com.DBStorage.queue", NULL);
+        self.serailQueue = dispatch_queue_create("com.DBStorage.serailQueue", NULL);
         
         self.queueItems = [NSMutableDictionary dictionaryWithCapacity:2];
         self.lock = dispatch_semaphore_create(1);
@@ -50,39 +54,50 @@ dispatch_semaphore_signal(_lock);
     return self;
 }
 
-- (void)addDBQueue:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
-    MKDBQueueItem* item = [[MKDBQueueItem alloc] initWithDbName:dbName gcdQueue:gcdQueue];
-    LOCK([self.queueItems dbSetObject:item forKey:dbName]);
+- (void)addDBName:(NSString *)DBName serailQueue:(dispatch_queue_t)serailQueue {
+    if (!DBName) return;
+    
+    MKDBQueueItem* item = [[MKDBQueueItem alloc] initWithDBName:DBName serailQueue:serailQueue];
+    LOCK([self.queueItems setObject:item forKey:DBName]);
 }
 
-- (FMDatabaseQueue *)getDbQueueWithDbName:(NSString *)dbName {
-    LOCK(MKDBQueueItem* item = [self.queueItems objectForKey:dbName]);
-    return item.dbQueue;
-}
-
-- (dispatch_queue_t)getGcdQueueWithDbName:(NSString *)dbName {
-    LOCK(MKDBQueueItem* item = [self.queueItems objectForKey:dbName]);
-    if (item && item.gcdQueue) {
-        return item.gcdQueue;
+- (FMDatabaseQueue *)getDatabaseQueueWithDBName:(NSString *)DBName {
+    if (!DBName) return self.databaseQueue;
+    
+    LOCK(MKDBQueueItem* item = [self.queueItems objectForKey:DBName]);
+    if (item && item.databaseQueue) {
+        return item.databaseQueue;
     }
-    return _gcdQueue;
+    return self.databaseQueue;
 }
 
-- (void)removeDBQueue:(NSString *)dbName {
-    LOCK([self.queueItems dbRemoveOjectForKey:dbName]);
+- (dispatch_queue_t)getSerailQueueWithDBName:(NSString *)DBName {
+    if (!DBName) return self.serailQueue;
+    
+    LOCK(MKDBQueueItem* item = [self.queueItems objectForKey:DBName]);
+    if (item && item.serailQueue) {
+        return item.serailQueue;
+    }
+    return self.serailQueue;
+}
+
+- (void)removeDBName:(NSString *)DBName {
+    if (!DBName) return;
+
+    LOCK([self.queueItems removeObjectForKey:DBName]);
 }
 
 @end
 
 @implementation MKDBQueueItem
 
-- (instancetype)initWithDbName:(NSString *)dbName gcdQueue:(dispatch_queue_t)gcdQueue {
+- (instancetype)initWithDBName:(NSString *)DBName serailQueue:(dispatch_queue_t)serailQueue {
     self = [super init];
     if (self) {
         NSString* folderPath = [NSFileManager folderPathWithFolderName:kDBFolderName directoriesPath:DocumentPath()];
-        self.dbQueue = [[FMDatabaseQueue alloc] initWithPath:
-                  [NSFileManager pathWithFileName:dbName foldPath:folderPath]];
-        self.gcdQueue = gcdQueue;
+        self.databaseQueue = [[FMDatabaseQueue alloc] initWithPath:
+                  [NSFileManager pathWithFileName:DBName foldPath:folderPath]];
+        self.serailQueue = serailQueue;
     }
     return self;
 }
