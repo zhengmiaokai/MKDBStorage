@@ -16,7 +16,6 @@ __VA_ARGS__; \
 dispatch_semaphore_signal(self.lock);
 
 
-/* KV-Model */
 @interface MKKeyValueDBItem : MKDBModel
 
 @property (nonatomic, copy) NSString *key;
@@ -90,11 +89,7 @@ dispatch_semaphore_signal(self.lock);
     [self createWithTableName:MKKeyValueDBItem.tableName dataBaseModel:MKKeyValueDBItem.class completion:nil];
 }
 
-- (void)saveDataWithValue:(id)value forKey:(NSString *)key {
-    [self saveDataWithValue:value forKey:key tableName:nil];
-}
-
-- (void)saveDataWithValue:(id)value forKey:(NSString *)key tableName:(NSString *)tableName {
+- (void)saveValue:(NSString *)value forKey:(NSString *)key {
     MKKeyValueDBItem *storageItem = [MKKeyValueDBItem itemWithValue:value forKey:key];
     LOCK([_storageItems setObject:storageItem forKey:key]);
     
@@ -111,10 +106,6 @@ dispatch_semaphore_signal(self.lock);
 }
 
 - (void)getValueForKey:(NSString *)key completion:(MKDBCompletionHandler)completionHandler {
-    [self getValueForKey:key tableName:nil completion:completionHandler];
-}
-
-- (void)getValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(MKDBCompletionHandler)completionHandler {
     LOCK(MKKeyValueDBItem *_storageItem = [_storageItems objectForKey:key]);
     
     if (_storageItem) {
@@ -137,20 +128,12 @@ dispatch_semaphore_signal(self.lock);
 }
 
 - (void)removeValueForKey:(NSString *)key {
-    [self removeValueForKey:key tableName:nil];
-}
-
-- (void)removeValueForKey:(NSString *)key tableName:(NSString *)tableName {
     LOCK([_storageItems removeObjectForKey:key]);
     
     [self deleteWithTableName:MKKeyValueDBItem.tableName where:@{@"key": key} completion:nil];
 }
 
 - (void)removeValuesForKeys:(NSArray *)keys {
-    [self removeValuesForKeys:keys tableName:nil];
-}
-
-- (void)removeValuesForKeys:(NSArray *)keys tableName:(NSString *)tableName {
     LOCK([_storageItems removeObjectsForKeys:keys]);
     
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
