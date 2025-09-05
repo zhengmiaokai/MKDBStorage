@@ -22,12 +22,3 @@
 - (void)removeDBName:(NSString *)DBName;
 
 @end
-
-@interface MKDBQueueItem : NSObject
-
-- (instancetype)initWithDBName:(NSString *)DBName serailQueue:(dispatch_queue_t)serailQueue;
-
-@property (nonatomic, strong) FMDatabaseQueue *databaseQueue;
-@property (nonatomic, strong) dispatch_queue_t serailQueue;
-
-@end

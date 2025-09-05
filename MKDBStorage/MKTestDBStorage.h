@@ -7,7 +7,6 @@
 //
 
 #import "MKDBStorage.h"
-#import "MKTestDBModel.h"
 
 @interface MKTestDBStorage : MKDBStorage
 

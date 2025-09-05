@@ -17,6 +17,32 @@ dispatch_semaphore_signal(_lock);
 #define kDBFolderName  @"sqlite_database"
 #define kDBFileName    @"DBStorage.db"
 
+
+@interface MKDBQueueItem : NSObject
+
+- (instancetype)initWithDBName:(NSString *)DBName serailQueue:(dispatch_queue_t)serailQueue;
+
+@property (nonatomic, strong) FMDatabaseQueue *databaseQueue;
+@property (nonatomic, strong) dispatch_queue_t serailQueue;
+
+@end
+
+@implementation MKDBQueueItem
+
+- (instancetype)initWithDBName:(NSString *)DBName serailQueue:(dispatch_queue_t)serailQueue {
+    self = [super init];
+    if (self) {
+        NSString* folderPath = [NSFileManager folderPathWithFolderName:kDBFolderName directoriesPath:DocumentPath()];
+        self.databaseQueue = [[FMDatabaseQueue alloc] initWithPath:
+                  [NSFileManager pathWithFileName:DBName foldPath:folderPath]];
+        self.serailQueue = serailQueue;
+    }
+    return self;
+}
+
+@end
+
+
 @interface MKDBQueue ()
 
 @property (nonatomic, strong) FMDatabaseQueue *databaseQueue;
@@ -85,21 +111,6 @@ dispatch_semaphore_signal(_lock);
     if (!DBName) return;
 
     LOCK([self.queueItems removeObjectForKey:DBName]);
-}
-
-@end
-
-@implementation MKDBQueueItem
-
-- (instancetype)initWithDBName:(NSString *)DBName serailQueue:(dispatch_queue_t)serailQueue {
-    self = [super init];
-    if (self) {
-        NSString* folderPath = [NSFileManager folderPathWithFolderName:kDBFolderName directoriesPath:DocumentPath()];
-        self.databaseQueue = [[FMDatabaseQueue alloc] initWithPath:
-                  [NSFileManager pathWithFileName:DBName foldPath:folderPath]];
-        self.serailQueue = serailQueue;
-    }
-    return self;
 }
 
 @end

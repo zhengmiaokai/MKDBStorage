@@ -15,6 +15,7 @@
 __VA_ARGS__; \
 dispatch_semaphore_signal(self.lock);
 
+
 /* KV-Model */
 @interface MKKeyValueDBItem : MKDBModel
 
@@ -27,6 +28,34 @@ dispatch_semaphore_signal(self.lock);
 + (instancetype)itemWithResult:(FMResultSet *)result;
 
 @end
+
+@implementation MKKeyValueDBItem
+
++ (instancetype)itemWithValue:(NSString *)value forKey:(NSString *)key {
+    MKKeyValueDBItem* model = [[MKKeyValueDBItem alloc] init];
+    model.key = key;
+    model.value = value;
+    return model;
+}
+
++ (instancetype)itemWithResult:(FMResultSet *)result {
+    MKKeyValueDBItem* item = [[MKKeyValueDBItem alloc] init];
+    item.key = [result stringForColumn:@"key"];
+    item.value = [result stringForColumn:@"value"];
+    return item;
+}
+
+#pragma mark - MKDBModel -
++ (NSString *)tableName {
+    return @"kv_database";
+}
+
+- (BOOL)needPrimaryKey {
+    return NO;
+}
+
+@end
+
 
 @interface MKKVStorage ()
 
@@ -58,7 +87,7 @@ dispatch_semaphore_signal(self.lock);
 }
 
 - (void)onLoad {
-    [self createWithTableName:MKKeyValueDBItem.tableName dataBaseModel:[MKKeyValueDBItem class] completion:nil];
+    [self createWithTableName:MKKeyValueDBItem.tableName dataBaseModel:MKKeyValueDBItem.class completion:nil];
 }
 
 - (void)saveDataWithValue:(id)value forKey:(NSString *)key {
@@ -129,33 +158,6 @@ dispatch_semaphore_signal(self.lock);
             [db deleteWithTableName:MKKeyValueDBItem.tableName where:@{@"key": key}];
         }
     } completion:nil];
-}
-
-@end
-
-@implementation MKKeyValueDBItem
-
-+ (instancetype)itemWithValue:(NSString *)value forKey:(NSString *)key {
-    MKKeyValueDBItem* model = [[MKKeyValueDBItem alloc] init];
-    model.key = key;
-    model.value = value;
-    return model;
-}
-
-+ (instancetype)itemWithResult:(FMResultSet *)result {
-    MKKeyValueDBItem* item = [[MKKeyValueDBItem alloc] init];
-    item.key = [result stringForColumn:@"key"];
-    item.value = [result stringForColumn:@"value"];
-    return item;
-}
-
-#pragma mark - MKDBModel -
-+ (NSString *)tableName {
-    return @"kv_database";
-}
-
-- (BOOL)needPrimaryKey {
-    return NO;
 }
 
 @end

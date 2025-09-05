@@ -7,13 +7,14 @@
 //
 
 #import "MKTestDBStorage.h"
+#import "MKTestDBModel.h"
 
 @implementation MKTestDBStorage
 
 - (void)onLoad {
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
         if ([db tableExists:MKTestDBModel.tableName] == NO) {
-            [db creatWithTableName:MKTestDBModel.tableName dataBaseModel:[MKTestDBModel class]];
+            [db creatWithTableName:MKTestDBModel.tableName dataBaseModel:MKTestDBModel.class];
         }
         
         if ( [db columnExists:@"data" inTableWithName:MKTestDBModel.tableName] == NO) {
