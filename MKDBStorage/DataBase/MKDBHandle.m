@@ -69,6 +69,30 @@
     }
 }
 
+- (BOOL)updateWithTableName:(NSString *)tableName set:(NSDictionary *)sKeyValues where:(NSDictionary *)wKeyValues {
+    @autoreleasepool {
+        NSString* setQuery = @"";
+        for (NSString* key in sKeyValues.allKeys) {
+            if (setQuery.length == 0) {
+                setQuery = [setQuery stringByAppendingFormat:@" %@ = '%@'", key, sKeyValues[key]];
+            } else {
+                setQuery = [setQuery stringByAppendingFormat:@", %@ = '%@'", key, sKeyValues[key]];
+            }
+        }
+        NSString* whereQuery = @"";
+        for (NSString* wkey in wKeyValues.allKeys) {
+            if (whereQuery.length == 0) {
+                whereQuery = [whereQuery stringByAppendingFormat:@" %@ = '%@'", wkey, wKeyValues[wkey]];
+            } else {
+                whereQuery = [whereQuery stringByAppendingFormat:@", %@ = '%@'", wkey, wKeyValues[wkey]];
+            }
+        }
+        NSString *queryString = [NSString stringWithFormat:@"update %@ set%@ where%@", tableName, setQuery, whereQuery];
+        BOOL success = [self executeUpdate:queryString];
+        return success;
+    }
+}
+
 - (NSArray *)selectWithTableName:(NSString *)tableName dataBaseModel:(Class)dataBaseClass {
     NSString *query = [NSString stringWithFormat:@"select * from %@", tableName];
     FMResultSet* result =  [self executeQuery:query];

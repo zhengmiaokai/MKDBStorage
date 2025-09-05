@@ -37,6 +37,13 @@
 */
 - (BOOL)updateWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues;
 
+/** 更新数据
+*   @param tableName  表名
+*   @param sKeyValues 键值
+*   @param wKeyValues 条件
+*/
+- (BOOL)updateWithTableName:(NSString *)tableName set:(NSDictionary *)sKeyValues where:(NSDictionary *)wKeyValues;
+
 /** 查询数据
 *   @param tableName     表名
 *   @param dataBaseClass 数据模型

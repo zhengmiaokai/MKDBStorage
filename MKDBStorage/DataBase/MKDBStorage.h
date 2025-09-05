@@ -37,7 +37,9 @@
 
 - (BOOL)insertWithTableName:(NSString *)tableName dataBaseModels:(NSArray <MKDBModel *>*)dataBaseModels;
 
-- (BOOL)updateWithTableName:(NSString *)tableName tableName:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues;
+- (BOOL)updateWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues;
+
+- (BOOL)updateWithTableName:(NSString *)tableName set:(NSDictionary *)sKeyValues where:(NSDictionary *)wKeyValues;
 
 - (NSArray *)selectWithTableName:(NSString *)tableName dataBaseModel:(Class)dataBaseClass;
 
@@ -60,7 +62,9 @@
 
 - (void)insertWithTableName:(NSString *)tableName dataBaseModels:(NSArray <MKDBModel *>*)dataBaseModels completion:(void (^)(BOOL))completionHandler;
 
-- (void)updateWithTableName:(NSString *)tableName tableName:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues completion:(void (^)(BOOL))completionHandler;
+- (void)updateWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues completion:(void (^)(BOOL))completionHandler;
+
+- (void)updateWithTableName:(NSString *)tableName set:(NSDictionary *)sKeyValues where:(NSDictionary *)wKeyValues completion:(void (^)(BOOL))completionHandler;
 
 - (void)selectWithTableName:(NSString *)tableName dataBaseModel:(Class)dataBaseClass completion:(void (^)(NSArray *))completionHandler;
 

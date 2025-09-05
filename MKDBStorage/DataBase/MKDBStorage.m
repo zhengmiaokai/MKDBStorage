@@ -136,10 +136,18 @@
     return success;
 }
 
-- (BOOL)updateWithTableName:(NSString *)tableName tableName:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues {
+- (BOOL)updateWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues {
     __block BOOL success;
     [self inDatabase:^(FMDatabase *db) {
         success = [db updateWithTableName:tableName dataBaseModel:dataBaseModel where:wKeyValues];
+    }];
+    return success;
+}
+
+- (BOOL)updateWithTableName:(NSString *)tableName set:(NSDictionary *)sKeyValues where:(NSDictionary *)wKeyValues {
+    __block BOOL success;
+    [self inDatabase:^(FMDatabase *db) {
+        success = [db updateWithTableName:tableName set:sKeyValues where:wKeyValues];
     }];
     return success;
 }
@@ -258,10 +266,21 @@
     }];
 }
 
-- (void)updateWithTableName:(NSString *)tableName tableName:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues completion:(void (^)(BOOL))completionHandler {
+- (void)updateWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues completion:(void (^)(BOOL))completionHandler {
     __block BOOL success;
     [self inDatabase:^(FMDatabase *db) {
         success = [db updateWithTableName:tableName dataBaseModel:dataBaseModel where:wKeyValues];
+    } completion:^{
+        if (completionHandler) {
+            completionHandler(success);
+        }
+    }];
+}
+
+- (void)updateWithTableName:(NSString *)tableName set:(NSDictionary *)sKeyValues where:(NSDictionary *)wKeyValues completion:(void (^)(BOOL))completionHandler {
+    __block BOOL success;
+    [self inDatabase:^(FMDatabase *db) {
+        success = [db updateWithTableName:tableName set:sKeyValues where:wKeyValues];
     } completion:^{
         if (completionHandler) {
             completionHandler(success);

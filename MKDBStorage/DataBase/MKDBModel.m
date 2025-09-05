@@ -32,8 +32,10 @@
             
             if ([type isEqualToString:@"NSString"]) {
                 [self setValue:[res stringForColumn:key] forKey:key];
-            } else if ([type isEqualToString:@"i"] || [type isEqualToString:@"q"]) {
+            } else if ([type isEqualToString:@"i"]) {
                 [self setValue:@([res intForColumn:key]) forKey:key];
+            } else if ([type isEqualToString:@"q"] || [type isEqualToString:@"Q"]) {
+                [self setValue:@([res longForColumn:key]) forKey:key];
             } else if ([type isEqualToString:@"f"] || [type isEqualToString:@"d"]) {
                 [self setValue:@([res doubleForColumn:key]) forKey:key];
             } else if ([type isEqualToString:@"NSData"]) {
@@ -65,7 +67,7 @@
         for (int i=0; i<propertyTypes.count; i++) {
             if ([propertyTypes[i] isEqualToString:@"NSString"]) {
                 [typeStrings addObject:[NSString stringWithFormat:@"%@ %@", propertyKeys[i], kFieldTypeString]];
-            } else if ([propertyTypes[i] isEqualToString:@"i"] || [propertyTypes[i] isEqualToString:@"q"]) {
+            } else if ([propertyTypes[i] isEqualToString:@"i"] || [propertyTypes[i] isEqualToString:@"q"] || [propertyTypes[i] isEqualToString:@"Q"]) {
                 [typeStrings addObject:[NSString stringWithFormat:@"%@ %@", propertyKeys[i], kFieldTypeInt]];
             } else if ([propertyTypes[i] isEqualToString:@"f"] || [propertyTypes[i] isEqualToString:@"d"]) {
                 [typeStrings addObject:[NSString stringWithFormat:@"%@ %@", propertyKeys[i], kFieldTypeFloat]];
