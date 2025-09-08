@@ -75,10 +75,8 @@
                 [typeStrings addObject:[NSString stringWithFormat:@"%@ %@", propertyKeys[i], kFieldTypeData]];
             }
         }
-        return [typeStrings componentsJoinedByString:@","];
+        return [typeStrings componentsJoinedByString:@", "];
     }
 }
 
 @end
-
-
