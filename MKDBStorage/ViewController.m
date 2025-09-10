@@ -31,8 +31,9 @@
     
     /* MKTestDBModel 继承于 MKDBModel；MKTestDBStorage 继承于 MKDBStorage */
     MKTestDBStorage* testStorage = [[MKTestDBStorage alloc] init];
-    [testStorage saveData:^(BOOL success) { }];
-    [testStorage selectData:^(NSArray *datas) { }];
+    [testStorage insertDatas:^(BOOL success) { }];
+    [testStorage selectDatas:^(NSArray *datas) { }];
+    [testStorage deleteDatas:^(BOOL success) { }];
     
     /* 基类实现了 NSCoding/NSCoping 协议 */
     MKArchivesDoubleModel * archivesData = [[MKArchivesDoubleModel alloc] init];

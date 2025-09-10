@@ -15,8 +15,8 @@
     return @"test_database";
 }
 
-- (BOOL)needPrimaryKey {
-    return NO;
+- (NSString *)primaryKey {
+    return nil;
 }
 
 @end

@@ -42,6 +42,25 @@
     }
 }
 
+- (BOOL)replaceWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel {
+    @autoreleasepool {
+        NSDictionary *keyValues = [dataBaseModel objectRecordPropertyDictionary];
+        NSArray *keys = keyValues.allKeys;
+        NSMutableArray *positions = [NSMutableArray arrayWithCapacity:keys.count];
+        NSMutableArray *arguments = [NSMutableArray arrayWithCapacity:keys.count];
+        for(id key in keys) {
+            [positions addObject:@"?"];
+            [arguments addObject:keyValues[key]];
+        }
+        
+        NSString *queryString = [NSString stringWithFormat:@"replace into %@ (%@) values (%@)", tableName,
+                                 [keys componentsJoinedByString:@", "],
+                                 [positions componentsJoinedByString:@", "]];
+        BOOL success = [self executeUpdate:queryString withArgumentsInArray:arguments];
+        return success;
+    }
+}
+
 - (BOOL)updateWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues {
     @autoreleasepool {
         NSDictionary* sKeyValues = [dataBaseModel objectRecordPropertyDictionary];

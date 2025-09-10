@@ -30,6 +30,12 @@
  */
 - (BOOL)insertWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel;
 
+/** 替换数据（primary key: 删除+插入 | 插入）
+ *  @param tableName     表名
+ *  @param dataBaseModel 数据模型
+ */
+- (BOOL)replaceWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel;
+
 /** 更新数据
 *   @param tableName     表名
 *   @param dataBaseModel 数据模型

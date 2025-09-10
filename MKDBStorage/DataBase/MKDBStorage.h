@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "MKDBHandle.h"
 
-@protocol MKDBStorage
+@protocol MKDBStorege
 
 - (void)onLoad;
 
 @end
 
-@interface MKDBStorage : NSObject <MKDBStorage>
+@interface MKDBStorage : NSObject <MKDBStorege>
 
 /// 实例初始化
 - (instancetype)initWithDBName:(NSString *)DBName serailQueue:(dispatch_queue_t)serailQueue;
@@ -36,6 +36,8 @@
 - (BOOL)insertWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel;
 
 - (BOOL)insertWithTableName:(NSString *)tableName dataBaseModels:(NSArray <MKDBModel *>*)dataBaseModels;
+
+- (BOOL)replaceWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel;
 
 - (BOOL)updateWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues;
 
@@ -61,6 +63,8 @@
 - (void)insertWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel completion:(void (^)(BOOL))completionHandler;
 
 - (void)insertWithTableName:(NSString *)tableName dataBaseModels:(NSArray <MKDBModel *>*)dataBaseModels completion:(void (^)(BOOL))completionHandler;
+
+- (void)replaceWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel completion:(void (^)(BOOL))completionHandler;
 
 - (void)updateWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel where:(NSDictionary *)wKeyValues completion:(void (^)(BOOL))completionHandler;
 

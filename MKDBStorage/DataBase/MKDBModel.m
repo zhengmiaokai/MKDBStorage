@@ -49,8 +49,8 @@
     return NSStringFromClass([self class]);
 }
 
-- (BOOL)needPrimaryKey {
-    return YES;
+- (NSString *)primaryKey {
+    return nil;
 }
 
 - (NSString *)typeStrings {
@@ -59,11 +59,6 @@
         NSArray* propertyTypes = [self generatePropertyTypes];
         
         NSMutableArray* typeStrings = [NSMutableArray arrayWithCapacity:propertyTypes.count];
-        
-        if ([self needPrimaryKey]) {
-            [typeStrings addObject: @"id integer primary key autoincrement"];
-        }
-        
         for (int i=0; i<propertyTypes.count; i++) {
             if ([propertyTypes[i] isEqualToString:@"NSString"]) {
                 [typeStrings addObject:[NSString stringWithFormat:@"%@ %@", propertyKeys[i], kFieldTypeString]];
@@ -75,6 +70,12 @@
                 [typeStrings addObject:[NSString stringWithFormat:@"%@ %@", propertyKeys[i], kFieldTypeData]];
             }
         }
+        
+        NSString *primaryKey = [self primaryKey];
+        if (primaryKey) {
+            [typeStrings addObject:[NSString stringWithFormat:@"primary key(%@)", primaryKey]];
+        }
+        
         return [typeStrings componentsJoinedByString:@", "];
     }
 }

@@ -23,7 +23,7 @@
     } completion:nil];
 }
 
-- (void)saveData:(void(^)(BOOL success))callBack {
+- (void)insertDatas:(void(^)(BOOL success))callBack {
     NSLog(@"saveData-startTime: %.3f",[[NSDate date] timeIntervalSince1970]);
     
     NSMutableArray* datas = [NSMutableArray arrayWithCapacity:500];
@@ -48,14 +48,22 @@
     }];
 }
 
-- (void)selectData:(void(^)(NSArray *datas))callBack {
+- (void)selectDatas:(void(^)(NSArray *datas))callBack {
     [self selectWithTableName:MKTestDBModel.tableName dataBaseModel:MKTestDBModel.class completion:^(NSArray *datas) {
-        if (datas.count > 2700) {//多于2700条数据后删除
-            [self deleteWithTableName:MKTestDBModel.tableName];
-        }
-        
         if (callBack) {
             callBack(datas);
+        }
+    }];
+}
+
+- (void)deleteDatas:(void(^)(BOOL success))callBack {
+    [self selectCountWithTableName:MKTestDBModel.tableName completion:^(int count) {
+        if (count > 1800) { // 多于1800条数据后删除
+            [self deleteWithTableName:MKTestDBModel.tableName completion:^(BOOL success) {
+                if (callBack) {
+                    callBack(success);
+                }
+            }];
         }
     }];
 }

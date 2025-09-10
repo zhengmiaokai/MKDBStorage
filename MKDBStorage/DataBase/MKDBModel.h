@@ -20,7 +20,7 @@
 
 - (NSString *)typeStrings;
 
-- (BOOL)needPrimaryKey;
+- (NSString *)primaryKey;
 
 @end
 

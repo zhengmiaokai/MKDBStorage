@@ -46,7 +46,6 @@ dispatch_semaphore_signal(_lock);
 @interface MKDBQueue ()
 
 @property (nonatomic, strong) FMDatabaseQueue *databaseQueue;
-
 @property (nonatomic, strong) dispatch_queue_t serailQueue;
 
 @property (nonatomic, strong) NSMutableDictionary *queueItems;

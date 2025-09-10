@@ -10,25 +10,24 @@
 
 @interface MKPropertyModel : MKArchivesModel
 
-@property (strong, nonatomic) NSString* content;
+@property (nonatomic, copy) NSString* content;
 
 @end
 
 @interface MKArchivesSubModel : MKArchivesModel
 
-@property (strong, nonatomic) NSString* title;
-@property (assign, nonatomic) int intValue;
-@property (assign, nonatomic) float floatValue;
+@property (nonatomic, copy) NSString* title;
+@property (nonatomic, assign) int intValue;
+@property (nonatomic, assign) float floatValue;
 
 @end
 
 @interface MKArchivesDoubleModel : MKArchivesSubModel
 
-@property (strong, nonatomic) NSString* detail;
-@property (strong, nonatomic) MKPropertyModel* property;
+@property (nonatomic, copy) NSString* detail;
+@property (nonatomic, strong) MKPropertyModel* property;
 
 - (BOOL)saveData;
-
 - (MKArchivesDoubleModel *)selectData;
 
 @end

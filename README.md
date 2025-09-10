@@ -18,8 +18,9 @@ for (int i=0; i<500; i++) {
 ```objective-c
 /* MKTestDBModel 继承于 MKDBModel；MKTestDBStorage 继承于 MKDBStorage */
 MKTestDBStorage* tesStorage = [[MKTestDBStorage alloc] init];
-[tesStorage saveData:^(BOOL success) { }];
-[tesStorage selectData:^(NSArray *datas) { }];
+[tesStorage insertDatas:^(BOOL success) { }];
+[tesStorage selectDatas:^(NSArray *datas) { }];
+[testStorage deleteDatas:^(BOOL success) { }];
 ```
 ```objective-c
 /* 基类实现了 NSCoding/NSCoping 协议 */

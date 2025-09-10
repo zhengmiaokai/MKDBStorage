@@ -8,12 +8,10 @@
 
 #import "MKDBStorage.h"
 #import "MKDBQueue.h"
-#import "NSArray+Additions.h"
 
 @interface MKDBStorage ()
 
 @property (nonatomic, strong) FMDatabaseQueue* databaseQueue;
-
 @property (nonatomic, strong) dispatch_queue_t serailQueue;
 
 @end
@@ -132,6 +130,14 @@
         if (success == NO) {
             *rollback = YES;
         }
+    }];
+    return success;
+}
+
+- (BOOL)replaceWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel {
+    __block BOOL success;
+    [self inDatabase:^(FMDatabase *db) {
+        success = [db replaceWithTableName:tableName dataBaseModel:dataBaseModel];
     }];
     return success;
 }
@@ -259,6 +265,17 @@
         if (success == NO) {
             *rollback = YES;
         }
+    } completion:^{
+        if (completionHandler) {
+            completionHandler(success);
+        }
+    }];
+}
+
+- (void)replaceWithTableName:(NSString *)tableName dataBaseModel:(MKDBModel *)dataBaseModel completion:(void (^)(BOOL))completionHandler {
+    __block BOOL success;
+    [self inDatabase:^(FMDatabase *db) {
+        success = [db replaceWithTableName:tableName dataBaseModel:dataBaseModel];
     } completion:^{
         if (completionHandler) {
             completionHandler(success);

@@ -10,14 +10,14 @@
 
 @interface MKTestDBModel : MKDBModel
 
-@property (nonatomic) NSInteger age;
-@property (nonatomic) int height;
-@property (nonatomic) float weight;
-@property (nonatomic) double time;
+@property (nonatomic, assign) NSInteger age;
+@property (nonatomic, assign) int height;
+@property (nonatomic, assign) float weight;
+@property (nonatomic, assign) double time;
 
-@property (nonatomic, strong) NSString* name;
-@property (nonatomic, strong) NSString* title;
-@property (nonatomic, strong) NSString* content;
-@property (nonatomic, strong) NSString* desc;
+@property (nonatomic, copy) NSString* name;
+@property (nonatomic, copy) NSString* title;
+@property (nonatomic, copy) NSString* content;
+@property (nonatomic, copy) NSString* desc;
 
 @end

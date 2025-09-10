@@ -19,11 +19,9 @@ dispatch_semaphore_signal(self.lock);
 @interface MKKeyValueDBItem : MKDBModel
 
 @property (nonatomic, copy) NSString *key;
-
 @property (nonatomic, copy) NSString *value;
 
 + (instancetype)itemWithValue:(NSString *)value forKey:(NSString *)key;
-
 + (instancetype)itemWithResult:(FMResultSet *)result;
 
 @end
@@ -49,8 +47,8 @@ dispatch_semaphore_signal(self.lock);
     return @"kv_database";
 }
 
-- (BOOL)needPrimaryKey {
-    return NO;
+- (NSString *)primaryKey {
+    return @"key";
 }
 
 @end
@@ -59,7 +57,6 @@ dispatch_semaphore_signal(self.lock);
 @interface MKKVStorage ()
 
 @property (nonatomic, strong) NSMutableDictionary *storageItems;
-
 @property (nonatomic, strong) dispatch_semaphore_t lock;
 
 @end
@@ -89,23 +86,26 @@ dispatch_semaphore_signal(self.lock);
     [self createWithTableName:MKKeyValueDBItem.tableName dataBaseModel:MKKeyValueDBItem.class completion:nil];
 }
 
+- (void)createWithTableName:(NSString *)tableName {
+    [self createWithTableName:tableName dataBaseModel:MKKeyValueDBItem.class completion:nil];
+}
+
 - (void)saveValue:(NSString *)value forKey:(NSString *)key {
+    [self saveValue:value forKey:key tableName:MKKeyValueDBItem.tableName];
+}
+
+- (void)saveValue:(NSString *)value forKey:(NSString *)key tableName:(NSString *)tableName {
     MKKeyValueDBItem *storageItem = [MKKeyValueDBItem itemWithValue:value forKey:key];
     LOCK([_storageItems setObject:storageItem forKey:key]);
     
-    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        int count = [db selectCountWithTableName:MKKeyValueDBItem.tableName where:@{@"key": key}];
-        if (count == 0) {
-            // 新增
-            [db insertWithTableName:MKKeyValueDBItem.tableName dataBaseModel:storageItem];
-        } else {
-            // 更新
-            [db updateWithTableName:MKKeyValueDBItem.tableName dataBaseModel:storageItem where:@{@"key": key}];
-        }
-    } completion:nil];
+    [self replaceWithTableName:tableName dataBaseModel:storageItem completion:nil];
 }
 
 - (void)getValueForKey:(NSString *)key completion:(MKDBCompletionHandler)completionHandler {
+    [self getValueForKey:key tableName:MKKeyValueDBItem.tableName completion:completionHandler];
+}
+
+- (void)getValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(MKDBCompletionHandler)completionHandler {
     LOCK(MKKeyValueDBItem *_storageItem = [_storageItems objectForKey:key]);
     
     if (_storageItem) {
@@ -114,7 +114,7 @@ dispatch_semaphore_signal(self.lock);
         }
     } else {
         __block MKKeyValueDBItem *storageItem = nil;
-        [self selectWithTableName:MKKeyValueDBItem.tableName dataBaseModel:MKKeyValueDBItem.class where:@{@"key": key} completion:^(NSArray *datas) {
+        [self selectWithTableName:tableName dataBaseModel:MKKeyValueDBItem.class where:@{@"key": key} completion:^(NSArray *datas) {
             storageItem = [datas dbObjectAtIndex:0];
             if (storageItem) {
                 LOCK([self.storageItems setObject:storageItem forKey:key]);
@@ -128,17 +128,25 @@ dispatch_semaphore_signal(self.lock);
 }
 
 - (void)removeValueForKey:(NSString *)key {
+    [self removeValueForKey:key tableName:MKKeyValueDBItem.tableName];
+}
+
+- (void)removeValueForKey:(NSString *)key tableName:(NSString *)tableName {
     LOCK([_storageItems removeObjectForKey:key]);
     
-    [self deleteWithTableName:MKKeyValueDBItem.tableName where:@{@"key": key} completion:nil];
+    [self deleteWithTableName:tableName where:@{@"key": key} completion:nil];
 }
 
 - (void)removeValuesForKeys:(NSArray *)keys {
+    [self removeValuesForKeys:keys tableName:MKKeyValueDBItem.tableName];
+}
+
+- (void)removeValuesForKeys:(NSArray *)keys tableName:(NSString *)tableName {
     LOCK([_storageItems removeObjectsForKeys:keys]);
     
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (NSString* key in keys) {
-            [db deleteWithTableName:MKKeyValueDBItem.tableName where:@{@"key": key}];
+            [db deleteWithTableName:tableName where:@{@"key": key}];
         }
     } completion:nil];
 }
