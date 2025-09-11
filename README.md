@@ -17,9 +17,9 @@ for (int i=0; i<500; i++) {
 
 ```objective-c
 /* MKTestDBModel 继承于 MKDBModel；MKTestDBStorage 继承于 MKDBStorage */
-MKTestDBStorage* tesStorage = [[MKTestDBStorage alloc] init];
-[tesStorage insertDatas:^(BOOL success) { }];
-[tesStorage selectDatas:^(NSArray *datas) { }];
+MKTestDBStorage* testStorage = [[MKTestDBStorage alloc] init];
+[testStorage insertDatas:^(BOOL success) { }];
+[testStorage selectDatas:^(NSArray *datas) { }];
 [testStorage deleteDatas:^(BOOL success) { }];
 ```
 ```objective-c
