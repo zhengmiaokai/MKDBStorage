@@ -83,29 +83,84 @@ dispatch_semaphore_signal(self.lock);
 }
 
 - (void)onLoad {
-    [self createWithTableName:MKKeyValueDBItem.tableName dataBaseModel:MKKeyValueDBItem.class completion:nil];
+    if ([[NSThread currentThread] isMainThread]) {
+        [self createWithTableName:MKKeyValueDBItem.tableName dataBaseModel:MKKeyValueDBItem.class completion:^(BOOL succss) {
+            NSLog(@"%@ table is %@.", MKKeyValueDBItem.tableName, succss?@"usable":@"unusable");
+        }];
+    } else {
+        BOOL succss = [self createWithTableName:MKKeyValueDBItem.tableName dataBaseModel:MKKeyValueDBItem.class];
+        NSLog(@"%@ table is %@.", MKKeyValueDBItem.tableName, succss?@"usable":@"unusable");
+    }
 }
 
-- (void)createWithTableName:(NSString *)tableName {
-    [self createWithTableName:tableName dataBaseModel:MKKeyValueDBItem.class completion:nil];
+#pragma mark - 键值存取（同步） -
+- (BOOL)createWithTableName:(NSString *)tableName {
+    return [self createWithTableName:tableName dataBaseModel:MKKeyValueDBItem.class];
 }
 
-- (void)saveValue:(NSString *)value forKey:(NSString *)key {
-    [self saveValue:value forKey:key tableName:MKKeyValueDBItem.tableName];
+- (BOOL)saveValue:(NSString *)value forKey:(NSString *)key {
+    return [self saveValue:value forKey:key tableName:MKKeyValueDBItem.tableName];
 }
 
-- (void)saveValue:(NSString *)value forKey:(NSString *)key tableName:(NSString *)tableName {
+- (BOOL)saveValue:(NSString *)value forKey:(NSString *)key tableName:(NSString *)tableName {
     MKKeyValueDBItem *storageItem = [MKKeyValueDBItem itemWithValue:value forKey:key];
     LOCK([_storageItems setObject:storageItem forKey:key]);
     
-    [self replaceWithTableName:tableName dataBaseModel:storageItem completion:nil];
+    return [self replaceWithTableName:tableName dataBaseModel:storageItem];
 }
 
-- (void)getValueForKey:(NSString *)key completion:(MKDBCompletionHandler)completionHandler {
+- (NSString *)getValueForKey:(NSString *)key {
+    return [self getValueForKey:key tableName:MKKeyValueDBItem.tableName];
+}
+
+- (NSString *)getValueForKey:(NSString *)key tableName:(NSString *)tableName {
+    LOCK(MKKeyValueDBItem *_storageItem = [_storageItems objectForKey:key]);
+    
+    if (_storageItem) {
+        return _storageItem.value;
+    } else {
+        NSArray *datas =  [self selectWithTableName:tableName dataBaseModel:MKKeyValueDBItem.class where:@{@"key": key}];
+        
+        MKKeyValueDBItem *storageItem = [datas dbObjectAtIndex:0];
+        if (storageItem) {
+            LOCK([self.storageItems setObject:storageItem forKey:key]);
+        }
+        
+        return _storageItem.value;
+    }
+}
+
+- (BOOL)removeValueForKey:(NSString *)key {
+    return [self removeValueForKey:key tableName:MKKeyValueDBItem.tableName];
+}
+
+- (BOOL)removeValueForKey:(NSString *)key tableName:(NSString *)tableName {
+    LOCK([_storageItems removeObjectForKey:key]);
+    
+    return [self deleteWithTableName:tableName where:@{@"key": key}];
+}
+
+#pragma mark - 键值存取（异步） -
+- (void)createWithTableName:(NSString *)tableName completion:(void (^)(BOOL))completionHandler {
+    [self createWithTableName:tableName dataBaseModel:MKKeyValueDBItem.class completion:completionHandler];
+}
+
+- (void)saveValue:(NSString *)value forKey:(NSString *)key completion:(void (^)(BOOL))completionHandler {
+    [self saveValue:value forKey:key tableName:MKKeyValueDBItem.tableName completion:completionHandler];
+}
+
+- (void)saveValue:(NSString *)value forKey:(NSString *)key tableName:(NSString *)tableName completion:(void (^)(BOOL))completionHandler {
+    MKKeyValueDBItem *storageItem = [MKKeyValueDBItem itemWithValue:value forKey:key];
+    LOCK([_storageItems setObject:storageItem forKey:key]);
+    
+    [self replaceWithTableName:tableName dataBaseModel:storageItem completion:completionHandler];
+}
+
+- (void)getValueForKey:(NSString *)key completion:(void(^)(NSString *value))completionHandler {
     [self getValueForKey:key tableName:MKKeyValueDBItem.tableName completion:completionHandler];
 }
 
-- (void)getValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(MKDBCompletionHandler)completionHandler {
+- (void)getValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(void(^)(NSString *value))completionHandler {
     LOCK(MKKeyValueDBItem *_storageItem = [_storageItems objectForKey:key]);
     
     if (_storageItem) {
@@ -127,28 +182,14 @@ dispatch_semaphore_signal(self.lock);
     }
 }
 
-- (void)removeValueForKey:(NSString *)key {
-    [self removeValueForKey:key tableName:MKKeyValueDBItem.tableName];
+- (void)removeValueForKey:(NSString *)key completion:(void (^)(BOOL))completionHandler {
+    [self removeValueForKey:key tableName:MKKeyValueDBItem.tableName completion:completionHandler];
 }
 
-- (void)removeValueForKey:(NSString *)key tableName:(NSString *)tableName {
+- (void)removeValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(void (^)(BOOL))completionHandler {
     LOCK([_storageItems removeObjectForKey:key]);
     
-    [self deleteWithTableName:tableName where:@{@"key": key} completion:nil];
-}
-
-- (void)removeValuesForKeys:(NSArray *)keys {
-    [self removeValuesForKeys:keys tableName:MKKeyValueDBItem.tableName];
-}
-
-- (void)removeValuesForKeys:(NSArray *)keys tableName:(NSString *)tableName {
-    LOCK([_storageItems removeObjectsForKeys:keys]);
-    
-    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        for (NSString* key in keys) {
-            [db deleteWithTableName:tableName where:@{@"key": key}];
-        }
-    } completion:nil];
+    [self deleteWithTableName:tableName where:@{@"key": key} completion:completionHandler];
 }
 
 @end

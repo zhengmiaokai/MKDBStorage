@@ -7,7 +7,7 @@
 ```objective-c
 /* kv储存 */
 for (int i=0; i<500; i++) {
-    [[MKKVStorage sharedInstance] saveDataWithValue:@"2333" forKey:[NSString stringWithFormat:@"key_%d", i]];
+    [[MKKVStorage sharedInstance] saveValue:@"2333" forKey:[NSString stringWithFormat:@"key_%d", i] completion:^(BOOL success) { }];
 }
     
 [[MKKVStorage sharedInstance] getValueForKey:@"key_1" completion:^(NSString *value) {

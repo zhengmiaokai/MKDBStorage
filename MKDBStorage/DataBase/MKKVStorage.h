@@ -8,23 +8,31 @@
 
 #import "MKDBStorage.h"
 
-typedef void(^MKDBCompletionHandler)(NSString *value);
-
 @protocol MKKVStorageDelegate <NSObject>
 
-- (void)createWithTableName:(NSString *)tableName;
+#pragma mark - 键值存取（同步） -
+- (BOOL)createWithTableName:(NSString *)tableName;
 
-- (void)saveValue:(NSString *)value forKey:(NSString *)key;
-- (void)saveValue:(NSString *)value forKey:(NSString *)key tableName:(NSString *)tableName;
+- (BOOL)saveValue:(NSString *)value forKey:(NSString *)key;
+- (BOOL)saveValue:(NSString *)value forKey:(NSString *)key tableName:(NSString *)tableName;
 
-- (void)getValueForKey:(NSString *)key completion:(MKDBCompletionHandler)completionHandler;
-- (void)getValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(MKDBCompletionHandler)completionHandler;
+- (NSString *)getValueForKey:(NSString *)key;
+- (NSString *)getValueForKey:(NSString *)key tableName:(NSString *)tableName;
 
-- (void)removeValueForKey:(NSString *)key;
-- (void)removeValueForKey:(NSString *)key tableName:(NSString *)tableName;
+- (BOOL)removeValueForKey:(NSString *)key;
+- (BOOL)removeValueForKey:(NSString *)key tableName:(NSString *)tableName;
 
-- (void)removeValuesForKeys:(NSArray *)keys;
-- (void)removeValuesForKeys:(NSArray *)keys tableName:(NSString *)tableName;
+#pragma mark - 键值存取（异步） -
+- (void)createWithTableName:(NSString *)tableName completion:(void(^)(BOOL success))completionHandler;
+
+- (void)saveValue:(NSString *)value forKey:(NSString *)key completion:(void(^)(BOOL success))completionHandler;
+- (void)saveValue:(NSString *)value forKey:(NSString *)key tableName:(NSString *)tableName completion:(void(^)(BOOL success))completionHandler;
+
+- (void)getValueForKey:(NSString *)key completion:(void(^)(NSString *value))completionHandler;
+- (void)getValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(void(^)(NSString *value))completionHandler;
+
+- (void)removeValueForKey:(NSString *)key completion:(void(^)(BOOL success))completionHandler;
+- (void)removeValueForKey:(NSString *)key tableName:(NSString *)tableName completion:(void(^)(BOOL success))completionHandler;
 
 @end
 
