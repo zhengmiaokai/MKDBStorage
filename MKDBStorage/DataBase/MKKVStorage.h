@@ -8,7 +8,7 @@
 
 #import "MKDBStorage.h"
 
-typedef void(^MKDBCompletionHandler)(id response);
+typedef void(^MKDBCompletionHandler)(NSString *value);
 
 @protocol MKKVStorageDelegate <NSObject>
 

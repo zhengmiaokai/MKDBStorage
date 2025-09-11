@@ -120,8 +120,8 @@
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
         success = NO;
         for (int i=0; i<dataBaseModels.count; i++){
-            MKDBModel* data = [dataBaseModels objectAtIndex:i];
-            success = [db insertWithTableName:tableName dataBaseModel:data];
+            MKDBModel* dataBaseModel = [dataBaseModels objectAtIndex:i];
+            success = [db insertWithTableName:tableName dataBaseModel:dataBaseModel];
             if (success == NO) {
                 break;
             }
@@ -138,6 +138,25 @@
     __block BOOL success;
     [self inDatabase:^(FMDatabase *db) {
         success = [db replaceWithTableName:tableName dataBaseModel:dataBaseModel];
+    }];
+    return success;
+}
+
+- (BOOL)replaceWithTableName:(NSString *)tableName dataBaseModels:(NSArray <MKDBModel *>*)dataBaseModels {
+    __block BOOL success = YES;
+    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        success = NO;
+        for (int i=0; i<dataBaseModels.count; i++){
+            MKDBModel* dataBaseModel = [dataBaseModels objectAtIndex:i];
+            success = [db replaceWithTableName:tableName dataBaseModel:dataBaseModel];
+            if (success == NO) {
+                break;
+            }
+        }
+        
+        if (success == NO) {
+            *rollback = YES;
+        }
     }];
     return success;
 }
@@ -255,8 +274,8 @@
     __block BOOL success = YES;
     [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (int i=0; i<dataBaseModels.count; i++){
-            MKDBModel* data = [dataBaseModels objectAtIndex:i];
-            success = [db insertWithTableName:tableName dataBaseModel:data];
+            MKDBModel* dataBaseModel = [dataBaseModels objectAtIndex:i];
+            success = [db insertWithTableName:tableName dataBaseModel:dataBaseModel];
             if (success == NO) {
                 break;
             }
@@ -276,6 +295,27 @@
     __block BOOL success;
     [self inDatabase:^(FMDatabase *db) {
         success = [db replaceWithTableName:tableName dataBaseModel:dataBaseModel];
+    } completion:^{
+        if (completionHandler) {
+            completionHandler(success);
+        }
+    }];
+}
+
+- (void)replaceWithTableName:(NSString *)tableName dataBaseModels:(NSArray <MKDBModel *>*)dataBaseModels completion:(void (^)(BOOL))completionHandler {
+    __block BOOL success = YES;
+    [self inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        for (int i=0; i<dataBaseModels.count; i++){
+            MKDBModel* dataBaseModel = [dataBaseModels objectAtIndex:i];
+            success = [db replaceWithTableName:tableName dataBaseModel:dataBaseModel];
+            if (success == NO) {
+                break;
+            }
+        }
+        
+        if (success == NO) {
+            *rollback = YES;
+        }
     } completion:^{
         if (completionHandler) {
             completionHandler(success);

@@ -25,8 +25,8 @@
         [[MKKVStorage sharedInstance] saveValue:@"2333" forKey:[NSString stringWithFormat:@"key_%d", i]];
     }
     
-    [[MKKVStorage sharedInstance] getValueForKey:@"key_1" completion:^(id  _Nonnull response) {
-        NSLog(@"key-value: %@", response);
+    [[MKKVStorage sharedInstance] getValueForKey:@"key_1" completion:^(NSString *value) {
+        NSLog(@"key-value: %@", value);
     }];
     
     /* MKTestDBModel 继承于 MKDBModel；MKTestDBStorage 继承于 MKDBStorage */
